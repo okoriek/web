@@ -1,0 +1,132 @@
+{% load static %}
+<!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <base href="./">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+        <meta name="description" content="Apex fortitude">
+        <meta name="author" content="Łukasz Holeczek">
+        <meta name="keyword" content="Investment">
+        <title>Account Proile</title>
+        
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="theme-color" content="#ffffff">
+        <!-- Vendors styles-->
+        <link rel="stylesheet" href="{% static 'vendors/simplebar/css/simplebar.css' %}">
+        <link rel="stylesheet" href="{% static 'vendors/css/vendors/simplebar.css' %}">
+        <!-- Main styles for this application-->
+        <link href="{% static 'vendors/css/style.css' %}" rel="stylesheet">
+        <!-- We use those styles to show code examples, you should remove them in your application.-->
+        <link href="{% static 'vendors/css/examples.css' %}" rel="stylesheet">
+        <link href="{% static 'vendors/@coreui/chartjs/css/coreui-chartjs.css' %}" rel="stylesheet">
+      </head>
+      <body>
+        <div class="sidebar sidebar-dark sidebar-fixed" id="sidebar">
+          <div class="sidebar-brand d-none d-md-flex">
+            <img class="sidebar-brand-full" src="{% static 'media/logos.png' %}" style="height: 50px;" alt="logo"/>
+          </div>
+          <ul class="sidebar-nav" data-coreui="navigation" data-simplebar="">
+            <li class="nav-title">Menu</li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'dashboard' %}">
+                <i class="fa-brands fa-windows nav-icon"></i> Dashboard</a>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'transaction' %}">
+              <i class="fa-solid fa-clock-rotate-left nav-icon"></i>Transactions</a>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'deposit' %}">
+                <i class="fa-solid fa-sack-dollar nav-icon"></i> Deposit</a>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'withdrawal' %}">
+              <i class="fa-solid fa-money-bill-transfer nav-icon"></i>Withdrawal</a>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'initiatetransfer' %}">
+              <i class="fa-solid fa-arrow-right-arrow-left nav-icon"></i>Transfer</a>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'active' %}">
+              <i class="fa-solid fa-hand-holding-dollar nav-icon"></i>Investment</a>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'referal' %}">
+              <i class="fa-solid fa-file-contract nav-icon"></i>Referal</a>
+            </li>
+            
+            <li class="nav-title">Settings</li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'details' %}">
+                <i class="fa-solid fa-user nav-icon"></i> My Profile</a>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'editprofile' %}">
+                <i class="fa-solid fa-pen-to-square nav-icon"></i> Edit Profile</a>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">
+                <i class="fa-solid fa-right-from-bracket nav-icon"></i> Logout</a>
+            </li>
+          </ul>
+        <button class="sidebar-toggler" type="button" data-coreui-toggle="unfoldable"></button>
+        </div>
+        <div class="wrapper d-flex flex-column min-vh-100 bg-light">
+          <header class="header header-sticky mb-4">
+            <div class="container-fluid">
+              <button class="header-toggler px-md-0 me-md-3" type="button" onclick="coreui.Sidebar.getInstance(document.querySelector('#sidebar')).toggle()">
+                <i class="fa-solid fa-bars"></i>
+              </button><a class="header-brand d-md-none" href="#">
+                <svg width="118" height="46" alt="CoreUI Logo">
+                  <use xlink:href="assets/brand/coreui.svg#full"></use>
+                </svg></a>
+              <ul class="header-nav d-none d-md-flex">
+                <li class="nav-item"><a class="nav-link" href="#">Dashboard</a></li>
+              </ul>
+              <ul class="header-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="#">
+                    <svg class="icon icon-lg">
+                      <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-bell"></use>
+                    </svg></a></li>
+                <li class="nav-item"><a class="nav-link" href="#">
+                    <svg class="icon icon-lg">
+                      <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-list-rich"></use>
+                    </svg></a></li>
+                <li class="nav-item"><a class="nav-link" href="#">
+                    <svg class="icon icon-lg">
+                      <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-envelope-open"></use>
+                    </svg></a></li>
+              </ul>
+
+              <!--Notification begin-->
+              <ul class="header-nav ">
+                <li class="nav-item dropdown">
+                    <a class="nav-link py-0" data-coreui-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa-regular fa-bell"><sup style="background-color: red; border-radius: 50%; color: white; padding: 2px 3px; font-size: x-small;">1</sup></i>
+                    </a>
+                </li>
+              </ul>
+              <!--Notification -->
+            </div>
+            <div class="header-divider"></div>
+            <div class="container-fluid">
+              {% block content %}
+              
+              {% endblock %}
+            </div>
+          </header>
+          {% block body %}
+          {% endblock %}
+          <footer class="footer">
+            <div>support©2023Apex-Fortitude All right reserved.</div>
+          </footer>
+        </div>
+        <!-- CoreUI and necessary plugins-->
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="{% static 'vendors/@coreui/coreui/js/coreui.bundle.min.js' %}"></script>
+        <script src="{% static 'vendors/simplebar/js/simplebar.min.js' %}"></script>
+        <!-- Plugins and scripts required by this view-->
+        <script src="https://kit.fontawesome.com/82d49a62e0.js" crossorigin="anonymous"></script>
+        <script src="{% static 'vendors/chart.js/js/chart.min.js' %}"></script>
+        <script src="{% static 'vendors/@coreui/chartjs/js/coreui-chartjs.js' %}"></script>
+        <script src="{% static 'vendors/@coreui/utils/js/coreui-utils.js' %}"></script>
+        <script src="{% static 'vendors/js/main.js' %}"></script>
+        <script>
+        </script>
+    
+      </body>
+    </html>

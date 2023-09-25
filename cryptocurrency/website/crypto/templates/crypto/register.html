@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+<link rel="stylesheet" href="{% static 'custom/css/custom.css'%}">
+
+<header class="header-base" style="margin-top: 100px;">
+	<div class="container">
+		<h1>Register</h1>
+		<ol class="breadcrumb">
+			<li><a href="">Home</a></li>
+			<li><a href="#">Register</a></li>
+		</ol>
+	</div>
+</header>
+<div class="reg_bg">
+	<br>
+	<form action="" method="post">
+		{% if form.errors %}
+		<div class="errors">
+			{{form.errors}}
+		</div>
+		{% endif %}
+		{% for message in messages %}
+		<center><span class="success">{{message}}</span></center>
+		{% endfor %}
+		{% csrf_token %}
+		<div class="row">
+			<div class="col-lg-6">
+				{{form.first_name.label_tag}}
+				{{form.first_name}}
+
+			</div>
+			<div class="col-lg-6">
+				{{form.last_name.label_tag}}
+				{{form.last_name}}
+
+			</div>
+
+			<div class="col-lg-6">
+				{{form.username.label_tag}}
+				{{form.username}}
+
+			</div>
+			<div class="col-lg-6">
+				{{form.email.label_tag}}
+				{{form.email}}
+
+			</div>
+
+			<div class="col-lg-6">
+				{{forms.btc_wallet.label_tag}}
+				{{forms.btc_wallet}}
+
+			</div>
+			<div class="col-lg-6">
+				{{forms.eth_wallet.label_tag}}
+				{{forms.eth_wallet}}
+
+			</div>
+
+			<div class="col-lg-6">
+				{{forms.usdt_trc20_wallet.label_tag}}
+				{{forms.usdt_trc20_wallet}}
+
+			</div>
+			<div class="col-lg-6">
+				{{forms.country.label_tag}}
+				{{forms.country}}
+
+			</div>
+
+			<div class="col-lg-6">
+				{{form.password1.label_tag}}
+				{{form.password1}}<i class="fa-solid fa-eye" id="hide1" style="position: absolute; right: 25px; padding-top: 10px;"></i>
+
+			</div>
+			<div class="col-lg-6">
+				{{form.password2.label_tag}}
+				{{form.password2}}<i class="fa-solid fa-eye" id="hide2" style="position: absolute; right: 25px; padding-top: 10px;"></i>
+
+			</div>
+		</div>
+		<br>
+		<button type="submit" id="reg_submit">Register</button>
+
+		<div class="form-group">
+			Have an account? <a href="{% url 'login' %}" class="new_user">Login</a>
+		</div>
+	</form>
+</div>
+
+<script>
+	const hidebtn = document.getElementById('hide1');
+	const hidebtn2 = document.getElementById('hide2');
+	const password1 =  document.getElementById('id_password1')
+	const password2  = document.getElementById('id_password2')
+	const details = document.querySelector('.details')
+  
+	var clicked1 = false
+	var clicked2 = false
+  
+	password1.addEventListener('focus',()=>{
+	  details.style.display = 'inline'
+	})
+  
+	hidebtn.addEventListener('click', ()=>{
+	  if (clicked1 == false){
+		password1.type='text'
+		hidebtn.classList.remove('fa-eye')
+		hidebtn.classList.add('fa-eye-slash')
+		clicked1 = true
+	  }
+	  else{
+		password1.type='password'
+		hidebtn.classList.remove('fa-eye-slash')
+		hidebtn.classList.add('fa-eye')
+		clicked1 = false
+	  }  
+	})
+  
+  
+	hidebtn2.addEventListener('click', ()=>{
+	  if (clicked2 == false){
+		password2.type='text'
+		hidebtn2.classList.remove('fa-eye')
+		hidebtn2.classList.add('fa-eye-slash')
+		clicked2 = true
+	  }
+	  else{
+		password2.type='password'
+		hidebtn2.classList.remove('fa-eye-slash')
+		hidebtn2.classList.add('fa-eye')
+		clicked2 = false
+	  }
+	})
+  </script>
+
+
+{% endblock %}

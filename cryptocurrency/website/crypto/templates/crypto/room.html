@@ -1,0 +1,28 @@
+{% extends 'base2.html' %}
+{% load static %}
+{% block content %}
+{% if user.is_staff %}
+<form id="checkform" action="checkview" method="POST">
+    {% csrf_token %}
+    <input  type="hidden", name="username", id="username", value="{{request.user.username}}" >
+    <br>
+    <br>
+    <input  type="text", name="room_id", id="room_id", value="{{request.user.first_name}}{{request.user.id}}">
+    <br>
+    <br>
+    <input type="submit" id="button" value="next">
+</form>
+
+{% else %}
+<form id="checkform" action="checkview" method="POST">
+    {% csrf_token %}
+    <input  type="hidden", name="username", id="username", value="{{request.user.username}}" >
+    <br>
+    <br>
+    <input  type="hidden", name="room_id", id="room_id", value="{{request.user.first_name}}{{request.user.id}}">
+    <br>
+    <br>
+    <input type="submit" id="button" value="next">
+</form>
+{% endif %}
+{% endblock %}

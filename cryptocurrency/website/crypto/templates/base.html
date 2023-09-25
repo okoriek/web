@@ -1,0 +1,165 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<meta http-equiv="content-type" content="text/html;charset=UTF-8">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Home</title>
+    <meta name="description" content="">
+
+    <link rel="stylesheet" href="{% static 'custom/css/bootstrap-grid.css' %}">
+    <link rel="stylesheet" href="{% static 'custom/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'custom/css/glide.css' %}">
+    <link rel="stylesheet" href="{% static 'custom/css/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'custom/css/content-box.css' %}">
+    <link rel="stylesheet" href="{% static 'custom/css/contact-form.css' %}">
+    <link rel="stylesheet" href="{% static 'custom/css/media-box.css' %}">
+    <link rel="stylesheet" href="{% static 'custom/css/skin.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'custom/css/sop.css' %}">
+
+
+    <!-- google translate -->
+    <style type="text/css">
+        .goog-logo-link {
+            display: none !important;
+        }
+
+        .goog-te-gadget {
+            color: transparent !important;
+        }
+
+        .goog-te-gadget .goog-te-combo {
+            color: blue !important;
+        }
+
+        .goog-te-banner-frame.skiptranslate {
+            display: none !important;
+        }
+
+        body {
+            top: 0px !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="preloader"></div>
+    <nav class="menu-top-logo menu-fixed" data-menu-anima="fade-in" style="background-color: #3b3d2e;">
+        <div class="container">
+            <div class="menu-brand">
+                <a href="">
+                    <img class="logo-default scroll-hide" src="{% static 'media/logos.png' %}" alt="logo" />
+                    <img class="logo-retina scroll-hide" src="{% static 'media/logos.png' %}" alt="logo" />
+                    <img class="logo-default scroll-show" src="{% static 'media/logos.png' %}" alt="logo" />
+                    <img class="logo-retina scroll-show" src="{% static 'media/logos.png' %}" alt="logo" />
+           
+                </a>
+            </div>
+            
+            <i class="menu-btn"><i class="fa-solid fa-bars" style="color: white;"></i></i>
+            <div class="menu-cnt">
+                <ul id="main-menu">
+                    {% if not user.is_authenticated %}
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'about' %}">About Us</a></li>
+                    <li><a href="{% url 'investment' %}">Investment</a></li>
+                    <li><a href="{% url 'faq' %}">FAQ</a></li>
+                    <li><a href="{% url 'contact' %}">Contact Us</a></li>
+                    <li><a href="{% url 'register' %}">Register</a></li>
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                    {% else %}
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'dashboard' %}">Account</a></li>
+                    <li><a href="{% url 'about' %}">About Us</a></li>
+                    <li><a href="{% url 'investment' %}">Investment</a></li>
+                    <li><a href="{% url 'faq' %}">FAQ</a></li>
+                    <li><a href="{% url 'contact' %}">Contact Us</a></li>
+                    {% endif %}
+                    <li class="nav-label">
+                        <a href="#"><span>Call us:</span> VIP ONLY </a>
+                    </li>
+
+                </ul>
+                <div class="menu-right">
+                    <div class="custom-area">
+                        Support Email<br />
+                        admin@Apex-fortitude.com </div>
+                    <ul class="lan-menu" style="margin-top: 30px;">
+                        <li class="dropdown" id="google_translate_element"></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+    {% block body %}
+
+    {% endblock %}
+    <footer class="light" style="background-color: #3b3d2e;">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4">
+                    <h3>Apex-fortitude</h3><br>
+
+                    <a href="{% static 'media/certificate.jpg' %}"
+                        class="btn btn-border btn-sm width-190 active full-width-sm" download>CERTIFICATE</a>
+                    <div class="icon-links icon-social icon-links-grid social-colors" style="margin-top: 20px;">
+                        <a class="facebook" href="#" ><i class="fa-brands fa-facebook"></i></a>
+                        <a class="twitter" href="#" ><i class="fa-brands fa-twitter"></i></a>
+                        <a class="instagram" href="https://instagram.com/apex_fortitude?igshid=MzRlODBiNWFlZA=="><i class="fa-brands fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <h3>Quick Links</h3>
+                    <ul class="icon-list icon-line">
+                        <li><a href="">Home</a></li>
+                        <li><a href="">Investment</a></li>
+                        <li><a href="">Contact Us</a></li>
+                        <li><a href="">Terms</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <ul class="text-list text-list-line">
+                        <li><b>Address:</b>
+                            <p>Dunhammervej 55932<br>Magleby Langeland, Denmark.</p>
+                        </li>
+                        <br>
+                        <li><b>Email:</b>
+                            <p>support@apex-fortitude.com</p>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bar">
+            <div class="container">
+                <span>© 2018 <a href="">Apex-fortitude.com</a>.</span>
+                <span><a href="">Contact us</a> | <a href="">Terms &
+                        Conditions</a></span>
+            </div>
+        </div>
+
+
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        <script src="https://kit.fontawesome.com/82d49a62e0.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="{% static 'custom/scripts/main.js' %}"></script>
+        <script src="{% static 'custom/scripts/parallax.min.js' %}"></script>
+        <script src="{% static 'custom/scripts/glide.min.js' %} "></script>
+        <script src="{% static 'custom/scripts/magnific-popup.min.js' %}"></script>
+        <script src="{% static 'custom/scripts/tab-accordion.js' %}"></script>
+        <script src="{% static 'custom/scripts/imagesloaded.min.js' %}"></script>
+        <script src="{% static 'custom/scripts/progress.js' %}" async></script>
+        <script src="{% static 'custom/scripts/spop.js' %}"></script>
+
+
+        <script src="{% static 'custom/scripts/contact-form/contact-form.js' %}"></script>
+        <script src="{% static 'custom/scripts/maps.min.js' %}"></script>
+        <!-- <script src="tools/sidebar/sidebar.js" data-setting="execoore"></script> -->
+    </footer>
+</body>
+</html>

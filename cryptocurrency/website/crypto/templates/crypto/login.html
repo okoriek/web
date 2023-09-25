@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+<link rel="stylesheet" href="{% static 'custom/css/custom.css'%}">
+
+<header class="header-base" style="margin-top: 100px;">
+    <div class="container">
+        <h1>Login</h1>
+        <ol class="breadcrumb">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Login</a></li>
+        </ol>
+    </div>
+</header>
+<div class="login_bg">
+    <br>
+    <form action="" method="post">
+        {% if form.errors %}
+        <div class="errors">
+            <p>username or password incorrect try again.</p>
+        </div>
+        <br>
+        {% endif %}
+        {% for message in messages %}
+        <div class="success">
+            {{message}}
+        </div>
+        {% endfor %}
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-lg-12">
+                {{form.username.label_tag}}
+                {{form.username}}
+
+            </div>
+            <div class="col-lg-12" style="position: relative;">
+                {{form.password.label_tag}}
+                {{form.password}}<i class="fa-solid fa-eye" id="hide" style="position: absolute; right: 25px; padding-top: 10px;"></i>
+
+            </div>
+            <br>
+            <button type="submit" id="login_submit">Login</button>
+
+            <div class="form-group" style="margin: 0 15px;">
+                Don't have an account? <a href="{% url 'register' %}" class="new_user">Register</a>
+                <br>
+                Forgotten password? <a href="{% url 'reset_password' %}" class="new_user">click here</a>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    const hidebtn = document.getElementById('hide');
+    const password =  document.getElementById('id_password')
+    
+    
+  
+    var clicked = false
+  
+    hidebtn.addEventListener('click', ()=>{
+      if (clicked == false){
+        password.type='text'
+        hidebtn.classList.remove('fa-eye')
+        hidebtn.classList.add('fa-eye-slash')
+        clicked = true
+      }
+      else{
+        password.type='password'
+        hidebtn.classList.remove('fa-eye-slash')
+        hidebtn.classList.add('fa-eye')
+        clicked = false
+      }  
+    })
+  
+  </script>
+
+
+{% endblock %}

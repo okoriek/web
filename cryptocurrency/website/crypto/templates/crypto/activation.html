@@ -1,0 +1,12 @@
+{% autoescape off %}
+
+Hello {{user}}
+
+We recieved you application sucessfully, and we are also grateful for you being part of our member, please click on the link below
+to complete the process
+
+http://{{domain}}{% url 'verification' uidb64=uid token=token %}
+
+
+
+{% endautoescape %}
