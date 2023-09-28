@@ -114,16 +114,11 @@ def Dashboard(request):
     for active in invest:
         try:
             plans =  Plan.objects.get(name = active.plan)
-            print(plans)
             daily = SystemEaring.objects.get(invest=active.pk)
-            print(daily)
             active  = today + timezone.timedelta(days=daily.num)
-            print(daily.num)
             if int(daily.num) <= int(plans.duration):
                 if today == active:
-                    daily.num += 1
                     daily.save()
-                    print(daily.num)
             else:
                 daily.delete()   
         except:

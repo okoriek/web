@@ -183,7 +183,7 @@ class SystemEaring(models.Model):
         if self.is_active:
             self.num += 1
             plans = Plan.objects.get(name = str(self.invest.plan))
-            self.balance = (int(plans.profit)* int(self.invest.amount))/100
+            self.balance += (int(plans.profit)* int(self.invest.amount))/100
         super().save(*args, **kwargs)
 
 
