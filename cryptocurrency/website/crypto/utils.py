@@ -23,4 +23,18 @@ def SendReferalMail(user, referal, target):
         )
     email.content_subtype = 'html'
     email.send()
+
+
+def WithdrawalMail(user, amount, currency):
+    email_subject = 'Withdrawal successful'
+    email_body =  render_to_string('crypto/withdrawalmail.html',{
+        'user':user.username,
+        'amount': amount,
+        'currency': currency,
+    })
+    email = EmailMessage(subject=email_subject, body=email_body,
+        from_email='Apexfortitude <admin@apexfortitude.com>', to=[user.email]
+        )
+    email.content_subtype = 'html'
+    email.send()
     

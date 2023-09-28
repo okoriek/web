@@ -10,10 +10,9 @@ from django.core.mail import EmailMessage
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.utils.encoding import force_bytes, force_str
 from django.contrib.sites.shortcuts import get_current_site
-from .utils import TokenGenerator
+from .utils import TokenGenerator, SendReferalMail
 from django.utils import timezone
 from datetime import datetime
-
 
 
 
@@ -71,17 +70,17 @@ def Register(request):
 
 def ReferalRegister(request, referal):
     if request.method=='POST':
-        targetuser =  CustomUser.objects.get(referal=referal)
+        referal =  CustomUser.objects.get(referal=referal)
         form = RegisterationForm(request.POST)
         forms = CustomForm(request.POST)
         if form.is_valid() and forms.is_valid():
             user = form.save()
             profile = forms.save(commit=False)
             profile.user=user
-            profile.refered_by=targetuser.user
+            profile.refered_by=referal.user
             profile.save()
 
-            referal = CustomUser.objects.get(user = user)
+            target = CustomUser.objects.get(user = referal)
 
             website = get_current_site(request).domain
             email_subject = 'Email Verification'
@@ -96,6 +95,8 @@ def ReferalRegister(request, referal):
                 )
             email.content_subtype = 'html'
             email.send()
+            SendReferalMail(user,referal, target)
+            messages.success(request, 'A Verification mail has been sent to your email or spam box')
             return redirect('/login')
     else:     
         form = RegisterationForm()
@@ -115,11 +116,15 @@ def Dashboard(request):
         try:
             plans =  Plan.objects.get(name = active.plan)
             daily = SystemEaring.objects.get(invest=active.pk)
-            active  = today + timezone.timedelta(days=daily.num)
+            activetime = today + timezone.timedelta(days=daily.num)
             if int(daily.num) <= int(plans.duration):
-                if today == active:
+                if today == activetime:
                     daily.save()
             else:
+                account = CustomUser.objects.get(user= request.user)
+                account.balance += daily.balance
+                account.balance += active.amount
+                account.save()
                 daily.delete()   
         except:
             pass
@@ -228,12 +233,12 @@ def AdminContact(request):
     return JsonResponse('DATA SUBMITTED', safe=False)
 
 
-@login_required(login_url='/login/') 
+
 def About(request):
     return render(request, 'crypto/about.html')
 
 
-@login_required(login_url='/login/') 
+
 def investment(request):
     
     return render(request, 'crypto/investment.html')
@@ -254,8 +259,7 @@ def SubmitInvestment(request):
     bal.balance -= int(amount)
     bal.save()
     return JsonResponse('Investment successfully', safe=False)
-
-@login_required(login_url='/login/') 
+ 
 def Faq(request):
 
     return render(request, 'crypto/Faq.html')

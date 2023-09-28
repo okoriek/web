@@ -8,7 +8,7 @@ import qrcode
 from django.core.files import File
 from PIL import Image, ImageDraw
 from io import BytesIO
-from .utils import SendReferalMail
+from .utils import WithdrawalMail
 
 
 class CustomUser(models.Model):
@@ -120,6 +120,13 @@ class Withdrawal(models.Model):
 
     def __str__(self):
         return f"{self.user} {self.currency} {self.amount}"
+    
+    def save(self, *args, **kwargs):
+        user = self.user
+        amount = self.amount
+        currency = self.currency
+        WithdrawalMail( user, amount, currency)
+        super().save(*args, **kwargs)
     
 
 class Transfer(models.Model):
