@@ -1,6 +1,14 @@
 from django.contrib import admin
 from .models import CustomUser, Payment,Currency, History, Withdrawal, Investment, Transfer, Notification, Plan, SystemEaring
 
+
+
+admin.site.site_header = 'Apexfortitude Administrator'
+admin.site.site_title = 'Apexfortitude Administrator'
+
+
+
+
 admin.site.register(CustomUser)
 admin.site.register(Payment)
 admin.site.register(Currency)
