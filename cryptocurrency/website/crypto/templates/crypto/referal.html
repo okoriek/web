@@ -1,15 +1,4 @@
 {% extends 'base2.html' %}
-{% block content %}
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb my-0 ms-2">
-    <li class="breadcrumb-item">
-      <!-- if breadcrumb is single--><span><a href="{% url 'home' %}" style="text-decoration: none; color: gray;">Home</a></span>
-    </li>
-    <li class="breadcrumb-item active"><span>Referal</span></li>
-  </ol>
-</nav>
-{% endblock %}
-
 {% block body %}
 <div class="row">
     <div class="col-sm-12 col-lg-12">
@@ -45,7 +34,7 @@
     const progress = document.getElementById('progress');
     progress.style.width = `${value}0%`
     const wallet = document.getElementById('wallet');
-    wallet.value = `${window.location.origin}/register/{{refer.referal}}`
+    wallet.value = `${window.location.origin}/register/{{refer}}`
     btn.addEventListener('click', ()=>{
         btn.innerText = 'copied'
         navigator.clipboard.writeText(`${wallet.value}`)

@@ -1,16 +1,4 @@
 {% extends 'base2.html' %}{% load static %}
-
-{% block content %}
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb my-0 ms-2">
-    <li class="breadcrumb-item">
-      <!-- if breadcrumb is single--><span><a href="{% url 'home' %}" style="text-decoration: none; color: gray;">Home</a></span>
-    </li>
-    <li class="breadcrumb-item active"><span>Dashboard</span></li>
-  </ol>
-</nav>
-{% endblock %}
-
 {% block body %}
 <div class="body flex-grow-1 px-3">
     <div class="container-lg">
@@ -27,7 +15,7 @@
                 <span>Available Balance</span>
               </div>
               <div style="display: inline;">
-                <div class="fs-4 fw-semibold">USD $0.00<span class="fs-6 fw-normal">
+                <div class="fs-4 fw-semibold">{% if earning is None %}$0{% else %}${{earning}}{% endif %}<span class="fs-6 fw-normal">
                 </div>
                 <span>System Earnings</span>
               </div>

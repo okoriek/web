@@ -25,7 +25,7 @@
       <body>
         <div class="sidebar sidebar-dark sidebar-fixed" id="sidebar">
           <div class="sidebar-brand d-none d-md-flex">
-            <img class="sidebar-brand-full" src="{% static 'media/logos.png' %}" style="height: 50px;" alt="logo"/>
+            <a href="{% url 'home' %}"><img class="sidebar-brand-full" src="{% static 'media/logos.png' %}" style="height: 50px;" alt="logo"/></a>
           </div>
           <ul class="sidebar-nav" data-coreui="navigation" data-simplebar="">
             <li class="nav-title">Menu</li>
@@ -92,20 +92,33 @@
               </ul>
 
               <!--Notification begin-->
-              <ul class="header-nav ">
-                <li class="nav-item dropdown">
-                    <a class="nav-link py-0" data-coreui-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa-regular fa-bell"><sup style="background-color: red; border-radius: 50%; color: white; padding: 2px 3px; font-size: x-small;">1</sup></i>
-                    </a>
+              <ul class="header-nav ms-3">
+                <li class="nav-item dropdown"><a class="nav-link py-0" data-coreui-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                    <div class="avatar avatar-md"><i class="fa-regular fa-bell"><sup style="background-color: red; border-radius: 50%; color: white; padding: 2px 3px; font-size: x-small;">{% if num is None %}0{% else %}{{num}}{% endif %}</sup></i></div>
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-end pt-0">
+                    <div class="dropdown-header bg-light py-2" style="width: 45vh;">
+                      <div class="fw-semibold" style="color: black ; padding-bottom: 10px;">Messages</div>
+                    </div>
+                    {% for d in item %}
+                    <div class="dropdown" style="padding-left: 10px;">
+                      <p style="font-weight: bold; text-transform: uppercase; margin: 0;">{{d.subject}}<span style="float: right; padding-right: 10px; ">{{d.date_created|date:'M D, Y'}}</span></p>
+                      <p style="font-size: 150;">{{d.message}}</p>
+                    </div> 
+                    <hr>
+                    {% endfor %}
+                    
+                    
+                  </div>
                 </li>
               </ul>
               <!--Notification -->
             </div>
             <div class="header-divider"></div>
             <div class="container-fluid">
-              {% block content %}
-              
-              {% endblock %}
+              <nav aria-label="breadcrumb">
+                <div style="text-align: end;"><strong>Hi {{request.user}}</strong> <i class="fa-regular fa-circle-user"></i></div>
+              </nav>
             </div>
           </header>
           {% block body %}

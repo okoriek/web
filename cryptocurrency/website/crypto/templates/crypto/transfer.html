@@ -1,17 +1,5 @@
 {% extends 'base2.html' %}
 {% load static %}
-
-{% block content %}
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb my-0 ms-2">
-    <li class="breadcrumb-item">
-      <!-- if breadcrumb is single--><span><a href="{% url 'home' %}" style="text-decoration: none; color: gray;">Home</a></span>
-    </li>
-    <li class="breadcrumb-item active"><span>Transfer</span></li>
-  </ol>
-</nav>
-{% endblock %}
-
 {% block body %}
 <link rel="stylesheet" href="{% static 'custom/css/custom.css'%}">
 <div class="reg_bg">

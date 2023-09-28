@@ -18,17 +18,16 @@
                     <center><h3 style="color: white; padding-top: 5px;">EMAIL VERIFICATION</h3></center>
                 </div>
                 <div style="padding: 10px 5px;">
-                    <p>Hello <strong>{{user}}</strong></p>
+                    <p>Dear <strong>{{referal}}</strong></p>
                     <p>
-                        We recieved you application sucessfully, welcome to the family, we are here to serve you.
-                        please click on activate below
-                        to complete the registeration process.
+                        You have a active referal on Apexfortitude.com
+                        User: {{user}}
+                        Name: {{firstname}} {{lastname}}
+                        We appreciate your contribution to the family.    
                     </p>
                     <br>
-                    <a style="background-color: #3B3D2E; border-radius: 10px; padding: 10px; text-decoration: none; color: white;" href="http://{{domain}}{% url 'verification' uidb64=uid token=token %}">Activate</a>
-                    <br>
-                    <br>
                     <p>Thank you for choosing Apexfortitude</p>
+                    <p>Team Apexfortitude</p>
                 </div>
                 <div style="background-color: #3B3D2E; height: 20vh; margin-top: 15px; padding-top: 20px;">
                     <center><h6 style="color: white;">&#169;2023Apexfortitude, inc. All rights reserved</h6></center>
