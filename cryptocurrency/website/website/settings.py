@@ -16,7 +16,7 @@ load_dotenv()
 SECRET_KEY = 'django-insecure-3mjg9&2kidb4ix+b8$lq=@&t#9+%c_5407gobdv#x)u8xseojf'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*',]
 
@@ -67,8 +67,9 @@ TEMPLATES = [
                 'crypto.context_processors.PendingWithdrawal',
                 'crypto.context_processors.TotalWithdrawal',
                 'crypto.context_processors.ActiveDeposit',
-                ##'crypto.context_processors.Profit',
-                ##'crypto.context_processors.Earnings',
+                'crypto.context_processors.Notify',
+                'crypto.context_processors.Message',
+                'crypto.context_processors.ActiveEarnings',
 
             ],
         },
@@ -140,13 +141,17 @@ LOGIN_REDIRECT_URL = ('/Profile-dashboard')
 LOGOUT_REDIRECT_URL = ('/')
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST='smtppro.zoho.com'
-EMAIL_HOST_PASSWORD=os.environ.get('EMAIL_HOST_PASSWORD')
-EMAIL_HOST_USER='admin@crimsoniclearningcentre.com.ng'
-EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-DEFAULT_FROM_EMAIL = 'Testing <admin@crimsoniclearningcentre.com.ng>'
+EMAIL_HOST_USER='admin@apexfortitude.com'
+EMAIL_HOST_PASSWORD=os.environ.get('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = True
+EMAIL_TIMEOUT= 1200
+
+
+
 
 AWS_ACCESS_KEY_ID=os.environ.get('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY=os.environ.get('AWS_SECRET_ACCESS_KEY')

@@ -2,7 +2,7 @@ from urllib import request
 from django.contrib.auth.models import User
 from django.dispatch import receiver
 from django.db.models.signals import post_save, pre_delete
-from . models import CustomUser, History, Payment, Withdrawal, Investment, Transfer
+from . models import CustomUser, History, Payment, Withdrawal, Investment, Transfer, SystemEaring
 
 @receiver(post_save, sender=Payment)
 def HistorySave(sender, instance, created, **kwargs):
@@ -33,7 +33,7 @@ def UpdateWithdrawHistorySave(sender, instance, created, **kwargs):
 def InvestHistorySave(sender, instance, created, **kwargs):
     if created:
         ids = instance.user
-        History.objects.create(user=ids, invest=instance,  action='Investment', currency= instance.Plan, amount=instance.amount, status = instance.status)
+        History.objects.create(user=ids, invest=instance,  action='Investment', currency= instance.plan, amount=instance.amount, status = instance.is_active)
 
 
 @receiver(post_save, sender=Transfer)
@@ -42,6 +42,12 @@ def TransferHistorySave(sender, instance, created, **kwargs):
         ids = instance.user
         History.objects.create(user=ids, action='Transfer', amount=instance.amount, status = instance.status)
 
+
+@receiver(post_save, sender=Investment)
+def UpdateSystemEarning(sender, instance, created, **kwargs):
+    if created:
+        ids = instance.user
+        SystemEaring.objects.create(user = ids, invest=instance, plan = instance.plan, is_active= instance.is_active)
 
 
 

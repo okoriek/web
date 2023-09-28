@@ -22,7 +22,6 @@ urlpatterns = [
     path('login/', LoginView.as_view(template_name='crypto/login.html'), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
 
-    path('password_change/', views.passwordreset ,name='passwordreset'),
     path('personal_details/', views.profiledetails ,name='details'),
     path('edit_personal_details/', views.editProfile ,name='editprofile'),
     path('Referal/', views.Referal ,name='referal'),

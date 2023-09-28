@@ -1,13 +1,16 @@
 from django.contrib import admin
-from .models import CustomUser, Payment,Currency, History, Withdrawal, Investment, Transfer
+from .models import CustomUser, Payment,Currency, History, Withdrawal, Investment, Transfer, Notification, Plan, SystemEaring
 
 admin.site.register(CustomUser)
 admin.site.register(Payment)
 admin.site.register(Currency)
+admin.site.register(Plan)
 admin.site.register(History)
 admin.site.register(Withdrawal)
 admin.site.register(Investment)
 admin.site.register(Transfer)
+admin.site.register(Notification)
+admin.site.register(SystemEaring)
 
 
 

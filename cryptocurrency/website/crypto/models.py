@@ -8,7 +8,7 @@ import qrcode
 from django.core.files import File
 from PIL import Image, ImageDraw
 from io import BytesIO
-from decimal import Decimal
+from .utils import SendReferalMail
 
 
 class CustomUser(models.Model):
@@ -94,13 +94,22 @@ class Investment(models.Model):
         ('Vip', 'Vip'),
     )
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
-    Plan = models.CharField(max_length=100, choices=choice, default='Starter')
+    plan = models.CharField(max_length=100, choices=choice)
     amount = models.FloatField()
-    status = models.BooleanField(default=False) 
+    is_active = models.BooleanField(default=False) 
     date_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.user}  {self.amount} {self.date_created}"  
+        return f"{self.user}  {self.amount} {self.date_created}"
+
+class Plan(models.Model):
+    name = models.CharField(max_length=30, blank=True, null=True)
+    profit =  models.IntegerField()
+    duration = models.IntegerField()
+    referal =  models.IntegerField()  
+
+    def __str__(self):
+        return self.name
      
 class Withdrawal(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
@@ -145,8 +154,37 @@ class History(models.Model):
         ordering = ('-date_created',)
 
     def __str__(self):
-        return f"{self.currency}   {self.amount}"
+        return f"{self.user}   {self.amount}"
 
+
+class Notification(models.Model):
+    subject =  models.CharField(max_length=100, blank=True, null=True)
+    message  =  models.TextField( blank=True, null=True)
+    ended =  models.BooleanField(default=False)
+    date_created =  models.DateTimeField(auto_now_add=True)
+
+
+    def __str__(self):
+        return self.subject
+    
+
+class SystemEaring(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    invest = models.ForeignKey(Investment, on_delete=models.CASCADE, blank=True, null=True)
+    num =  models.IntegerField(default=0)
+    plan = models.CharField(max_length=50, blank=True, null=True)   
+    balance = models.IntegerField()
+    is_active = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.user}   {self.balance}"
+    
+    def save(self, *args, **kwargs):
+        if self.is_active:
+            self.num += 1
+            plans = Plan.objects.get(name = str(self.invest.plan))
+            self.balance = (int(plans.profit)* int(self.invest.amount))/100
+        super().save(*args, **kwargs)
 
 
 

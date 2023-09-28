@@ -1,25 +1,19 @@
-import email
-import profile
-from django.http.response import JsonResponse, HttpResponse
-from django.shortcuts import get_object_or_404, render, redirect
-from django.utils import crypto
+from django.http.response import JsonResponse
+from django.shortcuts import render, redirect
 from .form import CustomForm,RegisterationForm,DepositForm, UserForm, CustomForms
 from django.contrib import messages
-from .models import Contact,CustomUser,Currency,Payment, History, Withdrawal,Investment, Transfer
+from .models import Contact,CustomUser,Currency,Payment, History, Withdrawal,Investment, Transfer, Plan, SystemEaring
 from django.contrib.auth.models import User
 from django.contrib.auth.views import login_required
-from django.contrib.auth.forms import PasswordChangeForm
-from django.views.decorators.csrf import csrf_exempt
-from django.core import serializers
-import json
-from django.http import HttpResponse
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.utils.encoding import force_bytes, force_str
 from django.contrib.sites.shortcuts import get_current_site
 from .utils import TokenGenerator
-from django.conf import settings
+from django.utils import timezone
+from datetime import datetime
+
 
 
 
@@ -38,6 +32,7 @@ def EmailVerification(request, uidb64, token):
     if user is not None and TokenGenerator.check_token(user, token):
         user.is_active=  True
         user.save()
+        messages.add_message(request, messages.SUCCESS, 'Email verification complete' )
         return redirect('/login')
     
 
@@ -46,10 +41,27 @@ def Register(request):
         form = RegisterationForm(request.POST)
         forms = CustomForm(request.POST)
         if form.is_valid() and forms.is_valid():
-            user = form.save()
+            user = form.save(commit=False)
+            user.is_active =False
+            user.save()
             profile = forms.save(commit=False)
             profile.user=user
             profile.save()
+
+            website = get_current_site(request).domain
+            email_subject = 'Email Verification'
+            email_body =  render_to_string('crypto/activation.html',{
+                'user':user.first_name,
+                'domain':website,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': TokenGenerator.make_token(user)
+            })
+            email = EmailMessage(subject=email_subject, body=email_body,
+                from_email='Apexfortitude <admin@apexfortitude.com>', to=[user.email]
+                )
+            email.content_subtype = 'html'
+            email.send()
+            messages.success(request, 'A Verification mail has been sent to your email or spam box')
             return redirect('/login')
     else:    
         form = RegisterationForm()
@@ -68,6 +80,22 @@ def ReferalRegister(request, referal):
             profile.user=user
             profile.refered_by=targetuser.user
             profile.save()
+
+            referal = CustomUser.objects.get(user = user)
+
+            website = get_current_site(request).domain
+            email_subject = 'Email Verification'
+            email_body =  render_to_string('crypto/activation.html',{
+                'user':user.first_name,
+                'domain':website,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': TokenGenerator.make_token(user)
+            })
+            email = EmailMessage(subject=email_subject, body=email_body,
+                from_email='Apexfortitude <admin@apexfortitude.com>', to=[user.email]
+                )
+            email.content_subtype = 'html'
+            email.send()
             return redirect('/login')
     else:     
         form = RegisterationForm()
@@ -75,14 +103,39 @@ def ReferalRegister(request, referal):
     args = {'form':form, 'forms':forms}
     return render(request, 'crypto/register.html', args)
 
+
+
+
 @login_required(login_url='/login/')  
 def Dashboard(request):
+    today =  datetime.today().date()
+    invest =  Investment.objects.filter(is_active=True)
+
+    for active in invest:
+        try:
+            plans =  Plan.objects.get(name = active.plan)
+            print(plans)
+            daily = SystemEaring.objects.get(invest=active.pk)
+            print(daily)
+            active  = today + timezone.timedelta(days=daily.num)
+            print(daily.num)
+            if int(daily.num) <= int(plans.duration):
+                if today == active:
+                    daily.num += 1
+                    daily.save()
+                    print(daily.num)
+            else:
+                daily.delete()   
+        except:
+            pass
     user = request.user
-    payment =Payment.objects.filter(user= user).last()
     data = History.objects.filter(user = user)[:10]
     detail = CustomUser.objects.get(user=user)
     arg = {'detail':detail, 'data':data}
     return render(request, 'crypto/dashboard.html', arg)
+
+
+
 
 @login_required(login_url='/login/')
 def Deposit(request):
@@ -114,9 +167,9 @@ def profiledetails(request):
 
 @login_required(login_url='/login/')  
 def Referal(request):
-    detail =  CustomUser.objects.all().filter(user = request.user)
+    detail =  CustomUser.objects.get(user = request.user)
     refer = CustomUser.objects.all().filter(refered_by = str(request.user.username))
-    arg = {'total':refer.count(), 'refer':refer}
+    arg = {'total':refer.count(), 'refer': detail.referal}
     return render(request, 'crypto/referal.html', arg)
 
 @login_required(login_url='/login/')  
@@ -146,19 +199,6 @@ def editProfile(request):
     args = {'form':form, 'forms':forms}
     return render(request, 'crypto/editprofile.html' , args)
 
-@login_required(login_url='/login/')
-def passwordreset(request):
-    if request.method=='POST':
-        form = PasswordChangeForm(request.user, request.POST)
-        if form.is_valid():
-            form.save()
-            messages.add(request, 'Password has been succesfully updated!')
-            return redirect('/login')
-            
-    else:
-        form =  PasswordChangeForm(request.user)
-    args = {'form':form}
-    return render(request, 'crypto/passwordreset.html' , args)
 
 @login_required(login_url='/login/') 
 def RenderWithdrawal(request):
@@ -205,14 +245,15 @@ def investment(request):
 
 @login_required(login_url='/login/') 
 def ActiveInvestment(request):
-    
-    return render(request, 'crypto/active.html')
+    invest =  Plan.objects.all().values
+    args = {'invest':invest}
+    return render(request, 'crypto/active.html', args)
 
 @login_required(login_url='/login/') 
 def SubmitInvestment(request):
     amount = request.POST['amount']
     select = request.POST['select']
-    invest = Investment.objects.create(user= request.user, Plan= select, amount= amount, status = True)
+    invest = Investment.objects.create(user= request.user, plan= select, amount= amount, is_active= True)
     invest.save()
     bal =  CustomUser.objects.get(user= request.user)
     bal.balance -= int(amount)
@@ -245,6 +286,15 @@ def transfer(request):
 def InitiateTransfer(request):
     
     return render(request, 'crypto/transfer.html')
+
+
+
+@login_required(login_url='/login/') 
+def notification(request):
+    
+    return render(request, 'crypto/tr.html')
+
+
 
 
 
