@@ -2,7 +2,7 @@ from django.http.response import JsonResponse
 from django.shortcuts import render, redirect
 from .form import CustomForm,RegisterationForm,DepositForm, UserForm, CustomForms
 from django.contrib import messages
-from .models import Contact,CustomUser,Currency,Payment, History, Withdrawal,Investment, Transfer, Plan, SystemEaring
+from .models import Contact,CustomUser,Currency,Payment, History, Withdrawal,Investment, Transfer, Plan, SystemEaring, ReferalBonus
 from django.contrib.auth.models import User
 from django.contrib.auth.views import login_required
 from django.template.loader import render_to_string
@@ -49,8 +49,8 @@ def Register(request):
 
             website = get_current_site(request).domain
             email_subject = 'Email Verification'
-            email_body =  render_to_string('crypto/activation.html',{
-                'user':user.first_name,
+            email_body =  render_to_string('email/activation.html',{
+                'user':user.username,
                 'domain':website,
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                 'token': TokenGenerator.make_token(user)
@@ -70,22 +70,23 @@ def Register(request):
 
 def ReferalRegister(request, referal):
     if request.method=='POST':
-        referal =  CustomUser.objects.get(referal=referal)
+        referer =  CustomUser.objects.get(referal=referal)
         form = RegisterationForm(request.POST)
         forms = CustomForm(request.POST)
         if form.is_valid() and forms.is_valid():
-            user = form.save()
+            user = form.save(commit=False)
+            user.is_active =False
+            user.save()
             profile = forms.save(commit=False)
             profile.user=user
-            profile.refered_by=referal.user
+            profile.refered_by=str(referer.user)
             profile.save()
 
-            target = CustomUser.objects.get(user = referal)
 
             website = get_current_site(request).domain
             email_subject = 'Email Verification'
-            email_body =  render_to_string('crypto/activation.html',{
-                'user':user.first_name,
+            email_body =  render_to_string('email/activation.html',{
+                'user':user.username,
                 'domain':website,
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                 'token': TokenGenerator.make_token(user)
@@ -95,7 +96,7 @@ def ReferalRegister(request, referal):
                 )
             email.content_subtype = 'html'
             email.send()
-            SendReferalMail(user,referal, target)
+            SendReferalMail(user,referer)
             messages.success(request, 'A Verification mail has been sent to your email or spam box')
             return redirect('/login')
     else:     
@@ -169,7 +170,11 @@ def profiledetails(request):
 def Referal(request):
     detail =  CustomUser.objects.get(user = request.user)
     refer = CustomUser.objects.all().filter(refered_by = str(request.user.username))
-    arg = {'total':refer.count(), 'refer': detail.referal}
+    bonus = ReferalBonus.objects.all().filter(user=str(request.user))
+    total = 0
+    for i in bonus:
+        total += i.earnings
+    arg = {'total':refer.count(), 'refer': detail.referal, 'earning':total}
     return render(request, 'crypto/referal.html', arg)
 
 @login_required(login_url='/login/')  
@@ -254,7 +259,20 @@ def SubmitInvestment(request):
     amount = request.POST['amount']
     select = request.POST['select']
     invest = Investment.objects.create(user= request.user, plan= select, amount= amount, is_active= True)
-    invest.save()
+    referal =  CustomUser.objects.get(user=request.user)
+
+    def Earn():
+        if select == 'Starter':
+            return 2
+        elif select == 'Premium':
+            return 3
+        else:
+            return 5
+
+    if referal.refered_by is not None:
+        bonus =  ReferalBonus.objects.create(user = referal.refered_by, earnings = Earn())
+    else:
+        pass
     bal =  CustomUser.objects.get(user= request.user)
     bal.balance -= int(amount)
     bal.save()

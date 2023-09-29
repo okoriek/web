@@ -8,7 +8,7 @@ import qrcode
 from django.core.files import File
 from PIL import Image, ImageDraw
 from io import BytesIO
-from .utils import WithdrawalMail
+from .utils import WithdrawalMail, CommisionMail, DepositMail
 
 
 class CustomUser(models.Model):
@@ -23,7 +23,7 @@ class CustomUser(models.Model):
     country = CountryField(verbose_name='countries')
 
     def __str__(self):
-        return f"{self.user.first_name} {self.user.last_name}"
+        return f"{self.user.first_name}-----------{self.user.last_name}"
     
     def save(self, *args, **kwargs):
         self.referal = get_random_string(6)
@@ -36,7 +36,7 @@ class Contact(models.Model):
     message = models.TextField(max_length=1000)
 
     def __str__(self):
-        return f"{self.name}  {self.email}"
+        return f"{self.name}---------{self.email}"
     
 
 class Currency(models.Model):
@@ -54,7 +54,7 @@ class Currency(models.Model):
 
     def save(self, *args, **kwargs):
         img = qrcode.make(self.wallet_id)
-        canvas = Image.new('RGB',(390,390), 'white')
+        canvas = Image.new('RGB',(390,290), 'white')
         draw = ImageDraw.Draw(canvas)
         canvas.paste(img)
         name = f'{self.name}QRCODE.png'
@@ -76,15 +76,19 @@ class Payment(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.user} {self.payment_option} {self.amount}"
+        return f"{self.user}---------{self.payment_option}-------------{self.amount}"
     
     def save(self, *args, **kwargs):
         if self.status == True:
             account = self.user.customuser
             payment = Currency.objects.get(name = str(self.payment_option))
-            total = self.amount/float(payment.rate)
+            total = self.amount
             account.balance =+ total
             account.save()
+            amount = self.amount
+            user = self.user
+            currency = self.payment_option
+            DepositMail(user,amount, currency)
         super().save(*args, **kwargs)
 
 class Investment(models.Model):
@@ -100,7 +104,7 @@ class Investment(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.user}  {self.amount} {self.date_created}"
+        return f"{self.user}--------{self.amount}------------{self.date_created}"
 
 class Plan(models.Model):
     name = models.CharField(max_length=30, blank=True, null=True)
@@ -119,13 +123,12 @@ class Withdrawal(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.user} {self.currency} {self.amount}"
+        return f"{self.user}---------{self.currency}---------{self.amount}"
     
     def save(self, *args, **kwargs):
         user = self.user
         amount = self.amount
-        currency = self.currency
-        WithdrawalMail( user, amount, currency)
+        WithdrawalMail( user, amount)
         super().save(*args, **kwargs)
     
 
@@ -137,7 +140,7 @@ class Transfer(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.user} {self.amount}      {self.reciever}"
+        return f"{self.user}---------{self.amount}------------{self.reciever}"
     
 class History(models.Model):
     choice  =  (
@@ -161,7 +164,7 @@ class History(models.Model):
         ordering = ('-date_created',)
 
     def __str__(self):
-        return f"{self.user}   {self.amount}"
+        return f"{self.user}----------{self.amount}"
 
 
 class Notification(models.Model):
@@ -180,18 +183,36 @@ class SystemEaring(models.Model):
     invest = models.ForeignKey(Investment, on_delete=models.CASCADE, blank=True, null=True)
     num =  models.IntegerField(default=0)
     plan = models.CharField(max_length=50, blank=True, null=True)   
-    balance = models.IntegerField()
+    balance = models.IntegerField(default=0)
     is_active = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.user}   {self.balance}"
+        return f"{self.user}---------{self.balance}"
     
     def save(self, *args, **kwargs):
         if self.is_active:
             self.num += 1
             plans = Plan.objects.get(name = str(self.invest.plan))
-            self.balance += (int(plans.profit)* int(self.invest.amount))/100
+            profit =  plans.profit
+            self.balance += ((profit * int(self.invest.amount)))/100
         super().save(*args, **kwargs)
+
+
+
+class ReferalBonus(models.Model):
+    user =  models.CharField(max_length=200, blank=True, null=True)
+    earnings = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f" {self.user}--------{self.earnings}"
+    
+    def save(self, *args, **kwargs):
+        refer = User.objects.get(username = self.user)
+        user = CustomUser.objects.filter(refered_by = self.user).last()
+        referer= refer
+        bonus = self.earnings
+        CommisionMail(user,referer, bonus)
+        super().save(*args, **kwargs )
 
 
 

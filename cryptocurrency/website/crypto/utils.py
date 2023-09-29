@@ -9,32 +9,62 @@ class passwordgenerator(PasswordResetTokenGenerator):
         return (six.text_type(user.pk) + six.text_type(timestamp) +  six.text_type(user.is_active))
 TokenGenerator = passwordgenerator()
 
-def SendReferalMail(user, referal, target):
-    email_subject = 'Referal Confirmation'
-    email_body =  render_to_string('crypto/referalmail.html',{
-        'user':user.first_name,
-        'referal': referal.refered_by,
+def SendReferalMail(user,referer):
+    email_subject = 'You have a new direct signup on Apexfortitude.com'
+    email_body =  render_to_string('email/referalmail.html',{
+        'user':user.username,
+        'referer': referer.user,
         'firstname': user.first_name,
-        'lastname': user.last_name
+        'lastname': user.last_name,
+        'email': user.email
 
     })
     email = EmailMessage(subject=email_subject, body=email_body,
-        from_email='Apexfortitude <admin@apexfortitude.com>', to=[target.user.email]
+        from_email='Apexfortitude <admin@apexfortitude.com>', to=[referer.user.email]
         )
     email.content_subtype = 'html'
     email.send()
 
 
-def WithdrawalMail(user, amount, currency):
-    email_subject = 'Withdrawal successful'
-    email_body =  render_to_string('crypto/withdrawalmail.html',{
+def DepositMail(user,amount,currency):
+    email_subject = 'Deposit has been approved'
+    email_body =  render_to_string('email/depositmail.html',{
         'user':user.username,
         'amount': amount,
-        'currency': currency,
+        'currency': currency
     })
     email = EmailMessage(subject=email_subject, body=email_body,
         from_email='Apexfortitude <admin@apexfortitude.com>', to=[user.email]
         )
     email.content_subtype = 'html'
     email.send()
+
+
+def WithdrawalMail(user, amount):
+    email_subject = 'your withdrawal request has been approved'
+    email_body =  render_to_string('email/withdrawalmail.html',{
+        'user':user.username,
+        'amount': amount,
+    })
+    email = EmailMessage(subject=email_subject, body=email_body,
+        from_email='Apexfortitude <admin@apexfortitude.com>', to=[user.email]
+        )
+    email.content_subtype = 'html'
+    email.send()
+
+
+def CommisionMail(user,referer, bonus):
+    email_subject = 'Apexfortitude.com Referral Commission'
+    email_body =  render_to_string('email/commision.html',{
+        'user':referer.username,
+        'bonus': bonus,
+        'referer': user.user.username
+
+    })
+    email = EmailMessage(subject=email_subject, body=email_body,
+        from_email='Apexfortitude <admin@apexfortitude.com>', to=[referer.email]
+        )
+    email.content_subtype = 'html'
+    email.send()
+
     

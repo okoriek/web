@@ -122,7 +122,7 @@
         <tr>
           <th scope="row">{{forloop.counter}}</th>
           <td>{{datas.action}}</td>
-          <td>{{datas.amount}}</td>
+          <td>${{datas.amount}}</td>
           <td>{% if datas.currency is None%} dollar {% else%} {{datas.currency}} {% endif %}</td>
           {% if datas.status == True %}
           <td><i class="fa-solid fa-circle-check" style="color: green;"></i> Confirmed</td>   

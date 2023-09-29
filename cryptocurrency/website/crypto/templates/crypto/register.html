@@ -81,7 +81,7 @@
 			</div>
 			
 		</div>
-		<span>By clicking on register you accepted our terms and condition.</span>
+		<span> <input type="checkbox" id="accept" style="height: 15px; margin-top: 5px;" required > By clicking on register you accepted our terms and condition.</span>
 		<br>
 		
 		<button type="submit" id="reg_submit">Register</button>
@@ -91,15 +91,22 @@
 		</div>
 	</form>
 </div>
+
 <script>
 	const hidebtn = document.getElementById('hide1');
 	const hidebtn2 = document.getElementById('hide2');
 	const password1 =  document.getElementById('id_password1')
 	const password2  = document.getElementById('id_password2')
 	const details = document.querySelector('.details')
+	const checkbox = document.getElementById('accept')
+	const btn = document.getElementById('reg_submit')
   
 	var clicked1 = false
 	var clicked2 = false
+
+	
+
+	
   
 	password1.addEventListener('focus',()=>{
 	  details.style.display = 'inline'

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CustomUser, Payment,Currency, History, Withdrawal, Investment, Transfer, Notification, Plan, SystemEaring
+from .models import CustomUser, Payment,Currency, History, Withdrawal, Investment, Transfer, Notification, Plan, SystemEaring, ReferalBonus
 
 
 
@@ -18,6 +18,7 @@ admin.site.register(Withdrawal)
 admin.site.register(Investment)
 admin.site.register(Transfer)
 admin.site.register(Notification)
+admin.site.register(ReferalBonus)
 admin.site.register(SystemEaring)
 
 

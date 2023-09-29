@@ -15,21 +15,26 @@
             <div class="col-12">
                 <div style="background-color: #3B3D2E; height: 15vh;">
                     <img src="{% static 'media/logos.png' %}" alt=""style="display: block; margin: 0 auto; padding-top: 20px; height: 6vh;">
-                    <center><h3 style="color: white; padding-bottom: 5px;">Referal Notification</h3></center>
+                    <center><h3 style="color: white; padding-bottom: 5px;">Withdrawal Notification</h3></center>
                 </div>
                 <div style="padding: 10px 5px;">
-                    <p>Dear <strong>{{referal}}</strong></p>
-                    <p>
-                        You have a active referal on Apexfortitude.com <br>
-                        User: {{user}} <br>
-                        Name: {{firstname}} {{lastname}} <br> 
-                        We appreciate your contribution to the family.    
+                    <p style="font-size: larger;">Dear <strong>{{user}}</strong></p>
+                    <p style="font-size: larger;">
+                        Your requested withdraw of ${{amount}} has been approved
+                        successfully and has be sent to your crypto wallet. Kindly check your account to 
+                        to verify this.
                     </p>
-                    <br>
-                    <p>Thank you for choosing Apexfortitude</p>
-                    <p>Team Apexfortitude</p>
+                    <p style="font-size: larger;">
+                        Thank you for choosing <a href="Apexfortitude.com " style="text-decoration: none; font-size: larger;">Apexfortitude.com</a><br>
+                        Best Regards, <br>
+                        Admin, <br>
+                        <a href="Apexfortitude.com" style="text-decoration: none; font-size: larger;">Apexfortitude.com</a>
+
+                    </p>
                 </div>
                 <div style="background-color: #3B3D2E; height: 15vh; margin-top: 15px; padding-top: 15px;">
+                    <center><p style="text-transform: uppercase; color: white;">Apex-fortitude</p></center>
+                    <center><p style="color: white;">Magleby Langeland, Denmark.</p></center>
                     <center><h6 style="color: white;">&#169;2023Apexfortitude, inc. All rights reserved</h6></center>
                 </div>
             </div>

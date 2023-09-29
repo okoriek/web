@@ -13,7 +13,7 @@
         <h4>Make Your Payment</h4>
         <p>
             Your order has been placed successfully. To complete,
-            please send the exact amount of <strong>{{amount}}{{currency}}</strong> to
+            please send the exact amount of <strong>${{amount}} in {{currency}}</strong> to
             address below   
         </p>
     </center>
@@ -22,7 +22,7 @@
             <center><h3>Pay {{currency}}</h3></center>
         </div>
         <div style="margin-left: auto; margin-right: auto; display: block;">
-            <img src="{{type.image.url}}" style="margin-left: auto; margin-right: auto; display: block;" alt="error loading Qrcode">
+            <img src="{{type.image.url}}" style="margin-left: auto; margin-right: auto; display: block; height: 20vh; width: 20vh;" alt="error loading Qrcode">
             <center><h3>1{{currency}}~${{type.rate}}</h3></center>
         </div>
         <div class="input-group mb-3">

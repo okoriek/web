@@ -42,7 +42,7 @@
         e.preventDefault()
         if(parseInt(bal.innerText) > parseInt(amount.value) || amount.value == ' ' ){
             if (option.value === 'Starter'&& (amount.value < 1000 && amount.value > 49) ){
-                
+                btn.innerText = 'Processing.......'
             $.ajax({
                 url:'/investment_processing/',
                 type:'post',
@@ -115,7 +115,9 @@
                             icon: 'error',
                             title: 'Oops...',
                             text: 'Something went wrong!',
-                        })  
+                        }) 
+                        btn.innerText = 'invest'
+                        document.location.reload()
                     }
                 }) 
             }
