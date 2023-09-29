@@ -5,10 +5,10 @@
 
 <header class="header-base" style="margin-top: 100px;">
     <div class="container">
-        <h1>Login</h1>
+        <h1>Contact Us</h1>
         <ol class="breadcrumb">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Support</a></li>
+            <li><a href="{% url 'contact' %}">Home</a></li>
+            <li><a href="#">Contact Us</a></li>
         </ol>
     </div>
 </header>
@@ -30,14 +30,14 @@
                 <textarea class="form-control" style="width: 100%;" rows="5" id="message" name="message"></textarea>
             </div>
 
-            <button type="submit" id="login_submit" class="contact_btn">Login</button>
+            <button type="submit" id="reg_submit" class="contact_btn">Send us a message</button>
 
           </form>
     </form>
 </div>
 
 <script>
-    const btn =  document.getElementById('login_submit');
+    const btn =  document.getElementById('reg_submit');
     var token =  '{{csrf_token}}'
     btn.addEventListener('click', (e)=>{
         e.preventDefault()

@@ -223,7 +223,7 @@ def Contactinfo(request):
     
     return render(request, 'crypto/contact.html')
 
-@login_required(login_url='/login/') 
+
 def AdminContact(request):
     name = request.POST['name']
     email = request.POST['email']
@@ -262,7 +262,7 @@ def SubmitInvestment(request):
  
 def Faq(request):
 
-    return render(request, 'crypto/Faq.html')
+    return render(request, 'crypto/faq.html')
 
 @login_required(login_url='/login/') 
 def transfer(request):

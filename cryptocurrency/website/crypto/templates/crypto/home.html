@@ -29,10 +29,13 @@
                         increasingly businesses, running computers all around the world, using software that solves
                         mathematical problems.
                     </p>
+                    
+                    {% if not request.user.is_authenticated %}
                     <hr class="space-sm" />
                     <a href="{% url 'register' %}" class="btn btn-sm width-190 full-width-sm">Register</a>
                     <a href="{% url 'login' %}" class="btn btn-border btn-sm width-190 active full-width-sm">Login</a>
                     <hr class="space-lg" />
+                    {% endif %}
                 </div>
                 <div class="col-lg-5 hidden-md">
                     <hr class="space-sm" />
