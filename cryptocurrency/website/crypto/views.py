@@ -222,7 +222,7 @@ def MakeWithdrawal(request):
     bal.save()
     return JsonResponse('Succesfully placed withdrawal', safe=False)
 
-@login_required(login_url='/login/') 
+
 def Contactinfo(request):
         
     
