@@ -31,11 +31,11 @@
     var token =  '{{csrf_token}}'
     btn.addEventListener('click', (e)=>{
         e.preventDefault()
-        if(parseInt(amount.value) > parseInt(bal.innerText)){
+        if(parseInt(amount.value) >= parseInt(bal.innerText)){
             error.style.display = 'block'
         }
         else{
-            
+            btn.innerText = 'Processing'
             $.ajax({
                 url:'/transfer/',
                 type:'post',
@@ -47,11 +47,12 @@
                 success:function(response){
                     Swal.fire({
                         icon: 'success',
-                        title: 'Withdrawal Initiated',
+                        title: 'Transfer Sucessful',
                     })
                     window.location.href = `${window.location.origin}/Profile-dashboard`
                 },
                 error:function(){
+                    btn.innerText = 'Transfer funds'
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',

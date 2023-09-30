@@ -15,18 +15,15 @@
             <div class="col-12">
                 <div style="background-color: #3B3D2E; height: 15vh;">
                     <img src="{% static 'media/logos.png' %}" alt=""style="display: block; margin: 0 auto; padding-top: 20px; height: 6vh;">
-                    <center><h3 style="color: white; padding-bottom: 5px;">SUCCESSFUL DEPOSIT</h3></center>
+                    <center><h3 style="color: white; padding-bottom: 5px;">Transfer Notification</h3></center>
                 </div>
                 <div style="padding: 10px 5px;">
-                    <p style="font-size: large;">Dear <strong>{{user}}</strong></p>
-                    <p style="font-size: large;">
-                        Your deposit has been approved<br>
-                        Amount: ${{amount}}<br>
-                        kindly login to your account dashboard to activate your deposited funds
+                    <p style="font-size: larger;">Dear <strong>{{user}}</strong></p>
+                    <p style="font-size: larger;">
+                        Your internal funds transfer has been processed successfully check below for details of transaction <br>
+                        Amount:{{amount}} <br>
+                        Username:{{referer}}
                     </p>
-                    <br>
-                    <br>
-                    <br>
                     <p style="font-size: larger;">
                         Thank you for choosing <a href="Apexfortitude.com " style="text-decoration: none; font-size: larger;">Apexfortitude.com</a><br>
                         Best Regards, <br>

@@ -268,11 +268,7 @@ def SubmitInvestment(request):
             return 3
         else:
             return 5
-
-    if referal.refered_by is not None:
-        bonus =  ReferalBonus.objects.create(user = referal.refered_by, earnings = Earn())
-    else:
-        pass
+    ReferalBonus.objects.create(user = str(referal.refered_by), earnings = Earn())
     bal =  CustomUser.objects.get(user= request.user)
     bal.balance -= int(amount)
     bal.save()
@@ -289,11 +285,11 @@ def transfer(request):
     transfer = Transfer.objects.create(user= request.user, reciever=username, amount=amount, status = True  )
     bal =  CustomUser.objects.get(user= request.user)
     bal.balance -= int(amount)
-    bal.save()
     recieved = User.objects.get(username=username)
     custom = CustomUser.objects.get(user = recieved.pk)
     custom.balance += int(amount)
     custom.save()
+    bal.save()
     transfer.save()
 
     return JsonResponse('Transfer successful', safe=False)

@@ -8,12 +8,12 @@ import qrcode
 from django.core.files import File
 from PIL import Image, ImageDraw
 from io import BytesIO
-from .utils import WithdrawalMail, CommisionMail, DepositMail
+from .utils import WithdrawalMail, CommisionMail, DepositMail, TransferMail
 
 
 class CustomUser(models.Model):
     user =  models.OneToOneField(User, on_delete=models.CASCADE , blank=True, null=False)
-    balance = models.IntegerField(blank=True, null=True)
+    balance = models.IntegerField(default=0, blank=True, null=True)
     referal = models.CharField(max_length=6, unique=True, blank=True, null=True)
     refered_by = models.CharField(max_length=50, blank=True, null=True)
     btc_wallet = models.CharField(max_length=300, blank=True, null=True)
@@ -142,6 +142,13 @@ class Transfer(models.Model):
     def __str__(self):
         return f"{self.user}---------{self.amount}------------{self.reciever}"
     
+    def save(self, *args, **kwargs):
+        user =  self.user
+        amount =  self.amount
+        referer =  self.reciever
+        TransferMail(user,referer,amount)
+        super().save(*args, **kwargs)
+    
 class History(models.Model):
     choice  =  (
         ('Withdrawal', 'Withdrawal'),
@@ -210,6 +217,9 @@ class ReferalBonus(models.Model):
         refer = User.objects.get(username = self.user)
         user = CustomUser.objects.filter(refered_by = self.user).last()
         referer= refer
+        bal =  CustomUser.objects.get(user = refer.pk)
+        bal.balance += self.earnings
+        bal.save()
         bonus = self.earnings
         CommisionMail(user,referer, bonus)
         super().save(*args, **kwargs )

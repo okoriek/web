@@ -148,6 +148,7 @@ EMAIL_PORT =465
 EMAIL_HOST_USER='admin@apexfortitude.com'
 EMAIL_HOST_PASSWORD=os.environ.get('EMAIL_HOST_PASSWORD')
 EMAIL_USE_SSL =True
+DEFAULT_FROM_EMAIL ='admin@apexfortitude.com'
 
 
 

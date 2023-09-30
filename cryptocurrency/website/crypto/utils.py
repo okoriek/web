@@ -67,4 +67,22 @@ def CommisionMail(user,referer, bonus):
     email.content_subtype = 'html'
     email.send()
 
+
+def TransferMail(user,referer, amount):
+    email_subject = 'Internal Fund Transfer'
+    email_body =  render_to_string('email/transferemail.html',{
+        'user': user,
+        'amount': amount,
+        'referer': referer
+
+    })
+    email = EmailMessage(subject=email_subject, body=email_body,
+        from_email='Apexfortitude <admin@apexfortitude.com>', to=[user.email]
+        )
+    email.content_subtype = 'html'
+    email.send()
+
+
+
+
     
