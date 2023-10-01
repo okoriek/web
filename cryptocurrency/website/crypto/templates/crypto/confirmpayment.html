@@ -56,6 +56,7 @@
         navigator.clipboard.writeText(`${address.value}`)
     })
     confirm.addEventListener('click', ()=>{
+        btn.innerText = 'Processing....'
         $.ajax({
             url:'/make_payment/',
             type:'post',

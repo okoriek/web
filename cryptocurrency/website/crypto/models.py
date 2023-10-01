@@ -214,14 +214,17 @@ class ReferalBonus(models.Model):
         return f" {self.user}--------{self.earnings}"
     
     def save(self, *args, **kwargs):
-        refer = User.objects.get(username = self.user)
-        user = CustomUser.objects.filter(refered_by = self.user).last()
-        referer= refer
-        bal =  CustomUser.objects.get(user = refer.pk)
-        bal.balance += self.earnings
-        bal.save()
-        bonus = self.earnings
-        CommisionMail(user,referer, bonus)
+        try:
+            refer = User.objects.get(username = self.user)
+            referer= refer
+            bal =  CustomUser.objects.get(user = refer.pk)
+            bal.balance += self.earnings
+            user = CustomUser.objects.filter(refered_by = self.user).last()
+            bal.save()
+            bonus = self.earnings
+            CommisionMail(user,referer, bonus)
+        except:
+            pass  
         super().save(*args, **kwargs )
 
 
