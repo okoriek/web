@@ -23,7 +23,7 @@
         </div>
         <div style="margin-left: auto; margin-right: auto; display: block;">
             <img src="{{type.image.url}}" style="margin-left: auto; margin-right: auto; display: block; height: 20vh; width: 20vh;" alt="error loading Qrcode">
-            <center><h3>1{{currency}}~${{type.rate}}</h3></center>
+            <!--<center><h3>1{{currency}}~${{type.rate}}</h3></center>-->
         </div>
         <div class="input-group mb-3">
             <input type="text" class="form-control" id="address" value="{{type.wallet_id}}">
@@ -56,7 +56,7 @@
         navigator.clipboard.writeText(`${address.value}`)
     })
     confirm.addEventListener('click', ()=>{
-        btn.innerText = 'Processing....'
+        confirm.innerText = 'Processing....'
         $.ajax({
             url:'/make_payment/',
             type:'post',

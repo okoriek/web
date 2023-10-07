@@ -83,7 +83,7 @@ class Payment(models.Model):
             account = self.user.customuser
             payment = Currency.objects.get(name = str(self.payment_option))
             total = self.amount
-            account.balance =+ total
+            account.balance += total
             account.save()
             amount = self.amount
             user = self.user
@@ -100,11 +100,19 @@ class Investment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     plan = models.CharField(max_length=100, choices=choice)
     amount = models.FloatField()
-    is_active = models.BooleanField(default=False) 
-    date_created = models.DateTimeField(auto_now_add=True)
+    is_active = models.BooleanField(default=False)
+    date_expiration = models.DateTimeField(default=timezone.now) 
+    date_created = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return f"{self.user}--------{self.amount}------------{self.date_created}"
+    
+    def save(self, *args, **kwargs):
+        plan  =  Plan.objects.get(name = self.plan)
+        self.date_expiration =  self.date_created + timezone.timedelta(days=plan.duration)
+        if timezone.now() > self.date_expiration:
+            self.is_active = False
+        super().save(*args, **kwargs)
 
 class Plan(models.Model):
     name = models.CharField(max_length=30, blank=True, null=True)
@@ -191,17 +199,29 @@ class SystemEaring(models.Model):
     num =  models.IntegerField(default=0)
     plan = models.CharField(max_length=50, blank=True, null=True)   
     balance = models.IntegerField(default=0)
+    date_expiration =  models.DateTimeField(default=timezone.now)
+    date_created =  models.DateTimeField(default=timezone.now)
     is_active = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.user}---------{self.balance}"
     
     def save(self, *args, **kwargs):
-        if self.is_active:
-            self.num += 1
-            plans = Plan.objects.get(name = str(self.invest.plan))
-            profit =  plans.profit
-            self.balance += ((profit * int(self.invest.amount)))/100
+
+        date = self.date_created + timezone.timedelta(days=self.num)
+        if date.date() == timezone.now().date():
+            if timezone.now() < self.date_expiration:           
+                self.num += 1
+                plans = Plan.objects.get(name = str(self.invest.plan))
+                profit =  plans.profit
+                self.balance += ((profit * int(self.invest.amount)))/100
+                total =  CustomUser.objects.get(user=self.user)
+                total.balance += ((profit * int(self.invest.amount)))/100
+                total.save()
+            else:
+                self.is_active = False
+        else:
+            pass
         super().save(*args, **kwargs)
 
 

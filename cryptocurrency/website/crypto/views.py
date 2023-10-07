@@ -110,25 +110,11 @@ def ReferalRegister(request, referal):
 
 @login_required(login_url='/login/')  
 def Dashboard(request):
-    today =  datetime.today().date()
-    invest =  Investment.objects.filter(is_active=True)
 
-    for active in invest:
-        try:
-            plans =  Plan.objects.get(name = active.plan)
-            daily = SystemEaring.objects.get(invest=active.pk)
-            activetime = today + timezone.timedelta(days=daily.num)
-            if int(daily.num) <= int(plans.duration):
-                if today == activetime:
-                    daily.save()
-            else:
-                account = CustomUser.objects.get(user= request.user)
-                account.balance += daily.balance
-                account.balance += active.amount
-                account.save()
-                daily.delete()   
-        except:
-            pass
+    earn =  SystemEaring.objects.filter(user =  request.user, is_active=True)
+
+    for x in earn:
+        x.save()
     user = request.user
     data = History.objects.filter(user = user)[:10]
     detail = CustomUser.objects.get(user=user)
