@@ -136,7 +136,10 @@ class Withdrawal(models.Model):
     def save(self, *args, **kwargs):
         user = self.user
         amount = self.amount
-        WithdrawalMail( user, amount)
+        if self.status == True:
+            WithdrawalMail( user, amount)
+        else:
+            pass
         super().save(*args, **kwargs)
     
 
@@ -154,7 +157,10 @@ class Transfer(models.Model):
         user =  self.user
         amount =  self.amount
         referer =  self.reciever
-        TransferMail(user,referer,amount)
+        if self.status == True:
+            TransferMail(user,referer,amount)
+        else:
+            pass
         super().save(*args, **kwargs)
     
 class History(models.Model):

@@ -34,6 +34,7 @@
     var token =  '{{csrf_token}}'
     btn.addEventListener('click', (e)=>{
         e.preventDefault()
+        this.disabled = true
         if(parseInt(amount.value) > parseInt(bal.innerText)){
             error.style.display = 'block'
         }
