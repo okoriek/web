@@ -1,4 +1,4 @@
-from .models import CustomUser, History, Notification,SystemEaring
+from .models import CustomUser, History, Notification,SystemEaring, Investment
 from django.contrib.auth.models import User
 
 def TotalDeposit(request):
@@ -31,7 +31,7 @@ def TotalWithdrawal(request):
 
 def ActiveDeposit(request):
     try:
-        bal = History.objects.filter(user=request.user, status=True, action= 'Investment')
+        bal = Investment.objects.filter(user=request.user, is_active=True)
         total = 0
         for i in  bal:
             total  += int(i.amount)

@@ -110,11 +110,12 @@ def ReferalRegister(request, referal):
 
 @login_required(login_url='/login/')  
 def Dashboard(request):
-
     earn =  SystemEaring.objects.filter(user =  request.user, is_active=True)
-
+    invest =  Investment.objects.filter(user =request.user, is_active=True)
     for x in earn:
         x.save()
+    for y in invest:
+        y.save()
     user = request.user
     data = History.objects.filter(user = user)[:10]
     detail = CustomUser.objects.get(user=user)

@@ -23,7 +23,7 @@ class CustomUser(models.Model):
     country = CountryField(verbose_name='countries')
 
     def __str__(self):
-        return f"{self.user.first_name}-----------{self.user.last_name}"
+        return f"{self.user.first_name}-----------{self.user.last_name}-------------Active Deposit: ${self.balance}"
     
     def save(self, *args, **kwargs):
         self.referal = get_random_string(6)
@@ -110,7 +110,10 @@ class Investment(models.Model):
     def save(self, *args, **kwargs):
         plan  =  Plan.objects.get(name = self.plan)
         self.date_expiration =  self.date_created + timezone.timedelta(days=plan.duration)
-        if timezone.now() > self.date_expiration:
+        if timezone.now() > self.date_expiration and self.is_active == True:
+            total =  CustomUser.objects.get(user=self.user)
+            total.balance += self.amount
+            total.save()
             self.is_active = False
         super().save(*args, **kwargs)
 
@@ -227,7 +230,10 @@ class SystemEaring(models.Model):
             else:
                 self.is_active = False
         else:
-            pass
+            if self.is_active == True:
+                self.is_active = False
+            else:
+                pass
         super().save(*args, **kwargs)
 
 
