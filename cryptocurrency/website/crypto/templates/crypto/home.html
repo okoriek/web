@@ -3,8 +3,10 @@
 {% block body %}
 <link rel="stylesheet" href="{% static 'custom/css/custom.css'%}">
 <main>
-    <section class="section-image section-home-one no-padding-y">
+    <section class="section-image section-home-one no-padding-y" style="background-image:url('/static/media/hd-1.jpg')">
         <div class="container">
+            <br>
+            <br>
             <div class="row">
                 <div class="col-lg-7">
                     <hr class="space-lg" />
@@ -16,21 +18,15 @@
                             <h1 class="text-uppercase">Put your effort exactly where your business needs it</h1>
                         </li>
                         <li>
-                            <h1 class="text-uppercase">Invest Earn and smile, we are here for your financial
-                                assistance</h1>
+                            <h1 class="text-uppercase">Invest Earn and smile, we are here for your financial assistance</h1>
                         </li>
                         <li>
                             <h1 class="text-uppercase">Have the courage to follow your heart and intuition.</h1>
                         </li>
                     </ul>
                     <p>
-                        Crypto Currency is a digital currency, created and held electronically. It is an
-                        internet-based medium of exchange which uses cryptographic functions to conduct financial
-                        transactions. They are not printed, like other currencies – they are produced by people, and
-                        increasingly businesses, running computers all around the world, using software that solves
-                        mathematical problems.
+                        Crypto Currency is a digital currency, created and held electronically. It is an internet-based medium of exchange which uses cryptographic functions to conduct financial transactions. They are not printed, like other currencies – they are produced by people, and increasingly businesses, running computers all around the world, using software that solves mathematical problems.
                     </p>
-                    
                     {% if not request.user.is_authenticated %}
                     <hr class="space-sm" />
                     <a href="{% url 'register' %}" class="btn btn-sm width-190 full-width-sm">Register</a>
@@ -38,7 +34,7 @@
                     <hr class="space-lg" />
                     {% endif %}
                 </div>
-                <div class="col-lg-5 hidden-md">
+                <div class="col-lg-5 hidden-md" style="margin-top: 90px;">
                     <hr class="space-sm" />
                     <img data-anima="fade-bottom" data-time="1000" class="slide-image"
                         src="{% static 'media/man3.png' %}" alt="" />
@@ -46,6 +42,7 @@
             </div>
         </div>
     </section>
+    
     <section class="section-base">
         <div class="container">
             <div class="row row-fit-lg" data-anima="fade-bottom" data-time="1000">
@@ -87,6 +84,11 @@
             </div>
         </div>
     </section>
+
+    <center>     
+        <h2> INVESTMENT GUIDE</h2><br>
+        <iframe width="380" height="330" src="{% static 'media/apexfortitude.mp4' %}" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
+    </center>
 
     <section class="section-base section-color">
         <div class="container">
@@ -524,7 +526,17 @@
                 </div>
                 <!-- <div class="col-lg-6">
                 <img src="media/box-3-v=1.201990.png" alt="" />
-            </div>-->
+                </div>-->
+
+                <div class="col-lg-6" style="padding-top: 24vh; padding-left: 0 ;">
+                    <div class="title">
+                        <h2>COMPANY LIVE TRANSACTIONS</h2>
+                        <p>Exclusive transactions</p>
+                    </div>
+                    <center>
+                        <iframe src="https://www.btcwidget.info/widget/liveTx/%23e4edf3/%23e4edf3/%23ffffff/%23004767/%23ffffff/400/400/7" width="380" height="400" frameBorder="0" scrolling="no"></iframe>
+                    </center> 
+                </div>
             </div>
         </div>
     </section>

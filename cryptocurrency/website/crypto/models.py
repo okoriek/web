@@ -101,6 +101,7 @@ class Investment(models.Model):
     plan = models.CharField(max_length=100, choices=choice)
     amount = models.FloatField()
     is_active = models.BooleanField(default=False)
+    is_completed = models.BooleanField(default=False)
     date_expiration = models.DateTimeField(default=timezone.now) 
     date_created = models.DateTimeField(default=timezone.now)
 
@@ -110,11 +111,12 @@ class Investment(models.Model):
     def save(self, *args, **kwargs):
         plan  =  Plan.objects.get(name = self.plan)
         self.date_expiration =  self.date_created + timezone.timedelta(days=plan.duration)
-        if timezone.now() > self.date_expiration and self.is_active == True:
+        if timezone.now() > self.date_expiration and self.is_active == True and self.is_completed == False:
             total =  CustomUser.objects.get(user=self.user)
             total.balance += self.amount
             total.save()
             self.is_active = False
+            self.is_completed =True
         super().save(*args, **kwargs)
 
 class Plan(models.Model):
@@ -230,10 +232,7 @@ class SystemEaring(models.Model):
             else:
                 self.is_active = False
         else:
-            if self.is_active == True:
-                self.is_active = False
-            else:
-                pass
+            pass
         super().save(*args, **kwargs)
 
 
