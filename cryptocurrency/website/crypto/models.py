@@ -16,9 +16,9 @@ class CustomUser(models.Model):
     balance = models.IntegerField(default=0, blank=True, null=True)
     referal = models.CharField(max_length=6, unique=True, blank=True, null=True)
     refered_by = models.CharField(max_length=50, blank=True, null=True)
-    btc_wallet = models.CharField(max_length=300, blank=True, null=True)
-    eth_wallet = models.CharField(max_length=300, blank=True, null=True)
-    usdt_trc20_wallet = models.CharField(max_length=300, blank=True, null=True)
+    btc_wallet_address = models.CharField(max_length=300, blank=True, null=True)
+    eth_wallet_address = models.CharField(max_length=300, blank=True, null=True)
+    usdt_trc20_wallet_address = models.CharField(max_length=300, blank=True, null=True)
     mobile_number = models.CharField(max_length=20, blank=True, null=True)
     country = CountryField(verbose_name='countries')
 
