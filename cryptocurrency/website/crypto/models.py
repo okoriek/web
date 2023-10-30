@@ -8,7 +8,7 @@ import qrcode
 from django.core.files import File
 from PIL import Image, ImageDraw
 from io import BytesIO
-from .utils import WithdrawalMail, CommisionMail, DepositMail, TransferMail
+from .utils import WithdrawalMail, CommisionMail, DepositMail, TransferMail, TransferRecieverMail
 
 
 class CustomUser(models.Model):
@@ -164,6 +164,7 @@ class Transfer(models.Model):
         referer =  self.reciever
         if self.status == True:
             TransferMail(user,referer,amount)
+            TransferRecieverMail(referer, amount, user)
         else:
             pass
         super().save(*args, **kwargs)
@@ -218,20 +219,44 @@ class SystemEaring(models.Model):
         return f"{self.user}---------{self.balance}"
     
     def save(self, *args, **kwargs):
-
+        plans = Plan.objects.get(name = str(self.invest.plan))
         date = self.date_created + timezone.timedelta(days=self.num)
+        fig =  timezone.now().date() - self.date_created.date()
+        diff = fig.days
         if date.date() == timezone.now().date():
-            if timezone.now() < self.date_expiration:           
-                self.num += 1
-                plans = Plan.objects.get(name = str(self.invest.plan))
-                profit =  plans.profit
-                self.balance += ((profit * int(self.invest.amount)))/100
-                total =  CustomUser.objects.get(user=self.user)
-                total.balance += ((profit * int(self.invest.amount)))/100
-                total.save()
+            if timezone.now() < self.date_expiration:
+                if diff == self.num:        
+                    self.num += 1
+                    profit =  plans.profit
+                    self.balance += ((profit * int(self.invest.amount)))/100
+                    total =  CustomUser.objects.get(user=self.user)
+                    total.balance += ((profit * int(self.invest.amount)))/100
+                    total.save()
+                else:
+                    sub = diff - self.num
+                    self.num += sub
+                    profit =  plans.profit
+                    self.balance += (((profit * int(self.invest.amount)))/100) * sub
+                    total =  CustomUser.objects.get(user=self.user)
+                    total.balance += (((profit * int(self.invest.amount)))/100) * sub
+                    total.save()
+
             else:
-                self.is_active = False
+                if self.num != plans.duration:
+                    sub = plans.duration - self.num
+                    self.num += sub
+                    profit =  plans.profit
+                    self.balance += (((profit * int(self.invest.amount)))/100) * sub
+                    total =  CustomUser.objects.get(user=self.user)
+                    total.balance += (((profit * int(self.invest.amount)))/100) * sub
+                    total.save()
+
+                    self.is_active = False
+                else:
+                    self.is_active = False
+
         else:
+            
             pass
         super().save(*args, **kwargs)
 

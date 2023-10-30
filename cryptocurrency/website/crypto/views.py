@@ -113,6 +113,7 @@ def Dashboard(request):
     earn =  SystemEaring.objects.filter(user =  request.user, is_active=True)
     invest =  Investment.objects.filter(user =request.user, is_active=True)
     for x in earn:
+        
         x.save()
     for y in invest:
         y.save()
