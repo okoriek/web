@@ -30,6 +30,7 @@ urlpatterns = [
     path('about/', views.About, name='about'),
     path('investment/', views.investment, name='investment'),
     path('faq/', views.Faq, name='faq'),
+    path('terms_and_conditions/', views.terms, name='terms'),
 
     path('', views.home, name='home'),
 

@@ -217,6 +217,11 @@ def Contactinfo(request):
     return render(request, 'crypto/contact.html')
 
 
+def terms(request):
+
+    return render(request, 'crypto/terms.html')
+
+
 def AdminContact(request):
     name = request.POST['name']
     email = request.POST['email']
