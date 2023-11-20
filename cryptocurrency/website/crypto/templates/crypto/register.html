@@ -16,12 +16,12 @@
 	<br>
 	<form action="" method="post">
 		{% if form.errors %}
-		<div class="errors">
+		<div class="errors" style="color: yellow; background-color: black;">
 			{{form.errors}}
 		</div>
 		{% endif %}
 		{% for message in messages %}
-		<center><span class="success" style="color: yellow; background-color: black;">{{message}}</span></center>
+		<center><span class="success" style="color: yellow; background-color: black; border: none;">{{message}}</span></center>
 		{% endfor %}
 		{% csrf_token %}
 		<div class="row">
