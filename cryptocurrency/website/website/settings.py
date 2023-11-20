@@ -70,7 +70,7 @@ TEMPLATES = [
                 'crypto.context_processors.Notify',
                 'crypto.context_processors.Message',
                 'crypto.context_processors.ActiveEarnings',
-                'crypto.context_processors.Refer',
+                
 
             ],
         },

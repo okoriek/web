@@ -64,17 +64,7 @@ def Message(request):
         return {'item':None}
 
 
-def Refer(request):
-    try:
-        detail =  CustomUser.objects.get(user = request.user)
-        refer = CustomUser.objects.all().filter(refered_by = str(request.user.username))
-        bonus = ReferalBonus.objects.all().filter(user=str(request.user))
-        total = 0
-        for i in bonus:
-            total += i.earnings
-        return {'total':refer.count(), 'refer': detail.referal, 'earnings':total}
-    except:
-        return {'total':None, 'refer': None, 'earnings':None}
+
     
 
 

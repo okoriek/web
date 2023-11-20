@@ -120,7 +120,16 @@ def Dashboard(request):
     user = request.user
     data = History.objects.filter(user = user)[:10]
     detail = CustomUser.objects.get(user=user)
-    arg = {'detail':detail, 'data':data}
+
+    #referer
+
+    details =  CustomUser.objects.get(user = request.user)
+    refer = CustomUser.objects.all().filter(refered_by = str(request.user.username))
+    bonus = ReferalBonus.objects.all().filter(user=str(request.user))
+    total = 0
+    for i in bonus:
+        total += i.earnings
+    arg = {'detail':detail, 'data':data, 'total':refer.count(), 'refer': details.referal, 'earnings':total}
     return render(request, 'crypto/dashboard.html', arg)
 
 
