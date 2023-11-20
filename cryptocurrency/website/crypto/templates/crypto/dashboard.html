@@ -110,39 +110,35 @@
         </div>
         <!-- /.col-->
 
+      </div>
 
-        <div class="row">
-          <div class="col-sm-12 col-lg-12">
-              <div class="card mb-4" style="--cui-card-cap-bg: #3b5998">
-                  <div class="card-header text-light" style="height: 15vh;">
-                      <h3>Referal</h3>
-                      <div class="progress">
-                          <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" id="progress" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
-                  </div>
-                  <div class="card-body row text-center">
-                      <div class="col">
-                          <div class="fs-5 fw-semibold">{% if total %}${{total}}{% else %}0{% endif %}</div>
-                          <div class="text-uppercase text-medium-emphasis small">Referals</div>
-                      </div>
-                      <div class="vr"></div>
-                      <div class="col">
-                          <div class="fs-5 fw-semibold">{% if earnings %}${{earnings}}{% else %}$0{% endif %}</div>
-                          <div class="text-uppercase text-medium-emphasis small">Earnings</div>
-                      </div>
-                  </div>
-              </div>
-          <div class="input-group mb-3">
-              <input type="text" class="form-control" id="wallet" disabled>
-              <div class="input-group-append">
-                <span class="input-group-text bg-primary text-light" id="copy">Copy</span>
-              </div>
-          </div>
+      <div class="row">
+        <div class="col-sm-12 col-lg-12">
+            <div class="card mb-4" style="--cui-card-cap-bg: #3b5998">
+                <div class="card-header text-light" style="height: 15vh;">
+                    <h3>Referal</h3>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" id="progress" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+                <div class="card-body row text-center">
+                    <div class="col">
+                        <div class="fs-5 fw-semibold">{% if total %}${{total}}{% else %}0{% endif %}</div>
+                        <div class="text-uppercase text-medium-emphasis small">Referals</div>
+                    </div>
+                    <div class="vr"></div>
+                    <div class="col">
+                        <div class="fs-5 fw-semibold">{% if earnings %}${{earnings}}{% else %}$0{% endif %}</div>
+                        <div class="text-uppercase text-medium-emphasis small">Earnings</div>
+                    </div>
+                </div>
+            </div>
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" id="wallet" disabled>
+            <div class="input-group-append">
+              <span class="input-group-text bg-primary text-light" id="copy">Copy</span>
+            </div>
         </div>
-
-
-
-
       </div>
     </div>
 
