@@ -21,7 +21,10 @@
               </div>
             </div>
             <div class="c-chart-wrapper mt-3 mx-3" style="height:70px;">
-              <canvas class="chart" id="card-chart1" height="70"></canvas>
+              <p>Available balance are withdrawable balance while  system  earning is your daily accumulated
+                profits within  the duration of investment.
+              </p>
+              <!--<canvas class="chart" id="card-chart1" height="70"></canvas>-->
             </div>
           </div>
         </div>
@@ -45,7 +48,9 @@
               </div>
             </div>
             <div class="c-chart-wrapper mt-3 mx-3" style="height:70px;">
-              <canvas class="chart" id="card-chart2" height="70"></canvas>
+              <p>Total Withdrawal is the total amount you have successfully withdraw from your  account.
+              </p>
+              <!--<canvas class="chart" id="card-chart2" height="70"></canvas>-->
             </div>
           </div>
         </div>
@@ -69,7 +74,10 @@
               </div>
             </div>
             <div class="c-chart-wrapper mt-3" style="height:70px;">
-              <canvas class="chart" id="card-chart3" height="70"></canvas>
+              <p>
+                Active deposit shows the amount of funds currently  invested.
+              </p>
+              <!--<canvas class="chart" id="card-chart3" height="70"></canvas>-->
             </div>
           </div>
         </div>
@@ -93,11 +101,45 @@
               </div>
             </div>
             <div class="c-chart-wrapper mt-3 mx-3" style="height:70px;">
-              <canvas class="chart" id="card-chart4" height="70"></canvas>
+              <p>
+                Pending withdrawal is the amount withdraw that is yet to be processed.
+              </p>
+              <!--<canvas class="chart" id="card-chart4" height="70"></canvas>-->
             </div>
           </div>
         </div>
         <!-- /.col-->
+      </div>
+    </div>
+
+
+
+    <div class="row">
+      <div class="col-sm-12 col-lg-12">
+          <div class="card mb-4" style="--cui-card-cap-bg: #3b5998">
+              <div class="card-header text-light" style="height: 15vh;">
+                  <h3>Referal</h3>
+                  <div class="progress">
+                      <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" id="progress" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+              </div>
+              <div class="card-body row text-center">
+                  <div class="col">
+                      <div class="fs-5 fw-semibold">{{total}}</div>
+                      <div class="text-uppercase text-medium-emphasis small">Referals</div>
+                  </div>
+                  <div class="vr"></div>
+                  <div class="col">
+                      <div class="fs-5 fw-semibold">{% if earning %}${{earning}}{% else %}$0{% endif %}</div>
+                      <div class="text-uppercase text-medium-emphasis small">Earnings</div>
+                  </div>
+              </div>
+          </div>
+      <div class="input-group mb-3">
+          <input type="text" class="form-control" id="wallet" disabled>
+          <div class="input-group-append">
+            <span class="input-group-text bg-primary text-light" id="copy">Copy</span>
+          </div>
       </div>
     </div>
 
