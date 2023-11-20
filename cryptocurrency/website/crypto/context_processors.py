@@ -74,7 +74,7 @@ def Refer(request):
             total += i.earnings
         return {'total':refer.count(), 'refer': detail.referal, 'earnings':total}
     except:
-        return {'total':None, 'refer': None, 'earnings':None}
+        return {'total':None, 'refer':detail.referal, 'earnings':None}
     
 
 
