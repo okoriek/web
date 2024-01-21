@@ -284,14 +284,7 @@ def Faq(request):
 def transfer(request):
     amount = request.POST['amount']
     username = request.POST['username']
-    transfer = Transfer.objects.create(user= request.user, reciever=username, amount=amount, status = True  )
-    bal =  CustomUser.objects.get(user= request.user)
-    bal.balance -= int(amount)
-    recieved = User.objects.get(username=username)
-    custom = CustomUser.objects.get(user = recieved.pk)
-    custom.balance += int(amount)
-    custom.save()
-    bal.save()
+    transfer = Transfer.objects.create(user= request.user, reciever=username, amount=amount, status = False )
     transfer.save()
 
     return JsonResponse('Transfer successful', safe=False)

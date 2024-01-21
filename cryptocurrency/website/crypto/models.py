@@ -163,6 +163,13 @@ class Transfer(models.Model):
         amount =  self.amount
         referer =  self.reciever
         if self.status == True:
+            bal =  CustomUser.objects.get(user= self.user)
+            bal.balance -= int(amount)
+            recieved = User.objects.get(username=self.reciever)
+            custom = CustomUser.objects.get(user = recieved.pk)
+            custom.balance += int(amount)
+            custom.save()
+            bal.save()
             TransferMail(user,referer,amount)
             TransferRecieverMail(referer, amount, user)
         else:
