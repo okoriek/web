@@ -287,7 +287,7 @@ def transfer(request):
     transfer = Transfer.objects.create(user= request.user, reciever=username, amount=amount, status = False )
     transfer.save()
 
-    return JsonResponse('Transfer successful', safe=False)
+    return JsonResponse('Transfer Pending', safe=False)
 
 
 @login_required(login_url='/login/') 
