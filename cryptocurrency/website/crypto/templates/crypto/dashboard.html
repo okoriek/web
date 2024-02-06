@@ -1,10 +1,19 @@
 {% extends 'base2.html' %}{% load static %}
 {% block body %}
+<style>
+  .dashboard_bg{
+    background-color: white;
+    -moz-box-shadow: 0 0 5px #ccc;
+    -webkit-box-shadow: 0 0 5px #ccc;
+    box-shadow: 0 0 5px #ccc;
+  }
+</style>
+
 <div class="body flex-grow-1 px-3">
     <div class="container-lg">
       <div class="row">
         <div class="col-sm-6 col-lg-3">
-          <div class="card mb-4 text-white bg-primary">
+          <div class="card mb-4 dashboard_bg">
             <div class="card-body pb-0 d-flex justify-content-between align-items-start">
               <div>
                 <div class="fs-4 fw-semibold">{% if balance is None %}$0{% else %}${{balance}}{% endif %}<span class="fs-6 fw-normal">
