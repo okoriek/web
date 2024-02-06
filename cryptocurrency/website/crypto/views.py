@@ -273,21 +273,50 @@ def ActiveInvestment(request):
 def SubmitInvestment(request):
     amount = request.POST['amount']
     select = request.POST['select']
-    invest = Investment.objects.create(user= request.user, plan= select, amount= amount, is_active= True)
-    referal =  CustomUser.objects.get(user=request.user)
 
-    def Earn():
-        if select == 'Starter':
-            return 2
-        elif select == 'Premium':
-            return 3
+    reinvest = Reinvestment.objects.filter(user=request.user, plan=select)
+
+    if reinvest.exists():
+        counting = Reinvestment.objects.get(user=request.user, plan=select)
+        if counting.plan == 'Starter' and counting.number_of_investment < 2 or counting.plan == 'Premium' and counting.number_of_investment <4:
+            invest = Investment.objects.create(user= request.user, plan= select, amount= amount, is_active= True)
+            referal =  CustomUser.objects.get(user=request.user)
+
+            def Earn():
+                if select == 'Starter':
+                    return 2
+                elif select == 'Premium':
+                    return 3
+                else:
+                    return 5
+            ReferalBonus.objects.create(user = str(referal.refered_by), earnings = Earn())
+            bal =  CustomUser.objects.get(user= request.user)
+            bal.balance -= int(amount)
+            bal.save()
+            counting.number_of_investment += 1
+            counting.save()
+            return JsonResponse('Investment successfully', safe=False)
         else:
-            return 5
-    ReferalBonus.objects.create(user = str(referal.refered_by), earnings = Earn())
-    bal =  CustomUser.objects.get(user= request.user)
-    bal.balance -= int(amount)
-    bal.save()
-    return JsonResponse('Investment successfully', safe=False)
+            return JsonResponse(f"Number of Reinvestment reached for {select}", safe=False)
+    else:
+        new = Reinvestment.objects.create(user=request.user, plan=select)
+        invest = Investment.objects.create(user= request.user, plan= select, amount= amount, is_active= True)
+        referal =  CustomUser.objects.get(user=request.user)
+
+        def Earn():
+            if select == 'Starter':
+                return 2
+            elif select == 'Premium':
+                return 3
+            else:
+                return 5
+        ReferalBonus.objects.create(user = str(referal.refered_by), earnings = Earn())
+        bal =  CustomUser.objects.get(user= request.user)
+        bal.balance -= int(amount)
+        bal.save()
+        new.number_of_investment += 1
+        new.save()
+        return JsonResponse('Investment successfully', safe=False)
  
 def Faq(request):
 

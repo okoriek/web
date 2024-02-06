@@ -290,6 +290,14 @@ class ReferalBonus(models.Model):
             pass  
         super().save(*args, **kwargs )
 
+class Reinvestment(models.Model):
+    user = models.ForeignKey(User, on_delete= models.CASCADE, blank=True, null=True)
+    plan = models.CharField(max_length=100, blank=True, null=True)
+    number_of_investment =  models.IntegerField(default=0)
+
+    def __str__(self):
+        return f"{self.user}-------{self.number_of_investment}"
+
 
 
 

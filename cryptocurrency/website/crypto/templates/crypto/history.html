@@ -20,7 +20,7 @@
                 <th scope="col">SN</th>
                 <th scope="col">Type</th>
                 <th scope="col">Amount</th>
-                <th scope="col">Currency</th>
+                <th scope="col">Date</th>
                 <th scope="col">Status</th>
                 </tr>
             </thead>
@@ -30,7 +30,7 @@
                 <th scope="row">{{forloop.counter}}</th>
                 <td>{{datas.action}}</td>
                 <td>{{datas.amount}}</td>
-                <td>{{datas.currency}}</td>
+                <td>{{datas.date_created.date}}</td>
                 {% if datas.status == True %}
                 <td><i class="fa-solid fa-circle-check" style="color: green;"></i> Confirmed</td>   
                 {% else %}

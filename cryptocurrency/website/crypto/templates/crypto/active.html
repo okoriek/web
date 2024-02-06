@@ -7,7 +7,7 @@
     <form action="" method="post">
         <form>
             <div class="mb-3">
-                <label for="name" class="form-label">plan: </label>
+                <label for="name" class="form-label">Plan: </label>
                 <select name="" id="select">
                     {% for data in invest %}
                     <option value="{{data.name}}">{{data.name}}</option>
@@ -43,6 +43,7 @@
         if(parseInt(bal.innerText) >= parseInt(amount.value) || amount.value == ' ' ){
             if (option.value === 'Starter'&& (amount.value < 1000 && amount.value > 49) ){
                 btn.innerText = 'Processing.......'
+                btn.disabled = true
             $.ajax({
                 url:'/investment_processing/',
                 type:'post',
@@ -52,11 +53,21 @@
                     select:$('#select').val(),
                 },
                 success:function(response){
-                    Swal.fire({
+                    if (response == 'Number of Reinvestment reached for Starter'){
+                        Swal.fire({
+                        icon: 'error',
+                        title: 'Number of Reinvestment reached for Starter',
+                        })
+                        window.location.reload()
+                    }
+                    else{
+                        Swal.fire({
                         icon: 'success',
                         title: 'Investment successful',
-                    })
-                    window.location.href = `${window.location.origin}/Profile-dashboard`
+                        })
+                        window.location.href = `${window.location.origin}/Profile-dashboard`
+                    }
+                    
                 },
                 error:function(){
                     Swal.fire({
@@ -69,6 +80,7 @@
             }
             else if( option.value === 'Premium' && (amount.value < 6000 && amount.value > 999)){
                 btn.innerText = "Processing...."
+                btn.disabled = true
                 $.ajax({
                     url:'/investment_processing/',
                     type:'post',
@@ -78,11 +90,20 @@
                         select:$('#select').val(),
                     },
                     success:function(response){
+                        if (response == 'Number of Reinvestment reached for Premium'){
                         Swal.fire({
-                            icon: 'success',
-                            title: 'Investment successful',
+                        icon: 'error',
+                        title: 'Number of Reinvestment reached for Premium',
+                        })
+                        window.location.reload()
+                    }
+                    else{
+                        Swal.fire({
+                        icon: 'success',
+                        title: 'Investment successful',
                         })
                         window.location.href = `${window.location.origin}/Profile-dashboard`
+                    }
                     },
                     error:function(){
                         Swal.fire({
@@ -95,6 +116,7 @@
             }
             else if(option.value === 'Vip' && (amount.value > 5999)){
                 btn.innerText = "Processing...."
+                btn.disabled = true
                 $.ajax({
                     url:'/investment_processing/',
                     type:'post',
