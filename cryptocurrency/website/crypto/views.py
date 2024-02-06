@@ -177,10 +177,23 @@ def Referal(request):
 @login_required(login_url='/login/')  
 def history(request):
     user = request.user
-    payment =Payment.objects.filter(user= user).last()
     data = History.objects.filter(user = user)
     args = {'data':data}
     return render(request, 'crypto/history.html', args)
+
+@login_required(login_url='/login/')  
+def deposithistory(request):
+    user = request.user
+    data = History.objects.filter(user = user, action='Deposit')
+    args = {'data':data}
+    return render(request, 'crypto/history.html', args)
+
+@login_required(login_url='/login/')  
+def withdrawalhistory(request):
+    user = request.user
+    data = History.objects.filter(user = user, action='Withdrawal')
+    args = {'data':data}
+    return render(request, 'crypto/history.html', args)     
 
 @login_required(login_url='/login/')
 def editProfile(request):

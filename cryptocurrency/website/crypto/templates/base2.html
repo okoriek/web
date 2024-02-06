@@ -32,35 +32,55 @@
             <li class="nav-item"><a class="nav-link" href="{% url 'dashboard' %}">
                 <i class="fa-brands fa-windows nav-icon"></i> Dashboard</a>
             </li>
-            <li class="nav-item"><a class="nav-link" href="{% url 'transaction' %}">
-              <i class="fa-solid fa-clock-rotate-left nav-icon"></i>Transactions</a>
-            </li>
             <li class="nav-item"><a class="nav-link" href="{% url 'deposit' %}">
                 <i class="fa-solid fa-sack-dollar nav-icon"></i> Deposit</a>
             </li>
             <li class="nav-item"><a class="nav-link" href="{% url 'withdrawal' %}">
-              <i class="fa-solid fa-money-bill-transfer nav-icon"></i>Withdrawal</a>
+              <i class="fa-solid fa-clock-rotate-left nav-icon"></i> Withdrawal</a>
             </li>
+            <!-- Dropdown for withdrawal -->
+            <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
+              <i class="fa-solid fa-money-bill-transfer nav-icon"></i> Transactions
+              <ul class="nav-group-items">
+                <li class="nav-item"><a class="nav-link" href="{% url 'transaction' %}">
+                  <i class="fa-solid fa-money-bill-transfer nav-icon"></i>All Transaction</a>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'withdrawal' %}">
+                  <i class="fa-solid fa-money-bill-transfer nav-icon"></i>Deposit</a>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'withdrawal' %}">
+                  <i class="fa-solid fa-money-bill-transfer nav-icon"></i>Withdrawal</a>
+                </li>
+              </ul>
+            </li>
+            <!-- end dropdown for withdrawal -->
             <li class="nav-item"><a class="nav-link" href="{% url 'initiatetransfer' %}">
               <i class="fa-solid fa-arrow-right-arrow-left nav-icon"></i>Transfer</a>
             </li>
             <li class="nav-item"><a class="nav-link" href="{% url 'active' %}">
               <i class="fa-solid fa-hand-holding-dollar nav-icon"></i>Investment</a>
             </li>
-            <li class="nav-item"><a class="nav-link" href="{% url 'referal' %}">
-              <i class="fa-solid fa-file-contract nav-icon"></i>Referal</a>
-            </li>
             
             <li class="nav-title">Settings</li>
-            <li class="nav-item"><a class="nav-link" href="{% url 'details' %}">
-                <i class="fa-solid fa-user nav-icon"></i> My Profile</a>
+            <!-- Dropdown for account -->
+            <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
+              <i class="fa-solid fa-users"></i> Account
+              <ul class="nav-group-items">
+                <li class="nav-item"><a class="nav-link" href="{% url 'details' %}">
+                  <i class="fa-solid fa-user nav-icon"></i> My Profile</a>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'editprofile' %}">
+                    <i class="fa-solid fa-pen-to-square nav-icon"></i> Edit Profile</a>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'referal' %}">
+                  <i class="fa-solid fa-file-contract nav-icon"></i>Referal</a>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">
+                    <i class="fa-solid fa-right-from-bracket nav-icon"></i> Logout</a>
+                </li>
+              </ul>
             </li>
-            <li class="nav-item"><a class="nav-link" href="{% url 'editprofile' %}">
-                <i class="fa-solid fa-pen-to-square nav-icon"></i> Edit Profile</a>
-            </li>
-            <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">
-                <i class="fa-solid fa-right-from-bracket nav-icon"></i> Logout</a>
-            </li>
+            <!-- end dropdown for accounts -->
           </ul>
         <button class="sidebar-toggler" type="button" data-coreui-toggle="unfoldable"></button>
         </div>
