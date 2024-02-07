@@ -33,7 +33,7 @@
                 <i class="fa-brands fa-windows nav-icon"></i> Dashboard</a>
             </li>
             <li class="nav-item"><a class="nav-link" href="{% url 'deposit' %}">
-                <i class="fa-solid fa-sack-dollar nav-icon"></i> Deposit</a>
+                <i class="fa-solid fa-wallet nav-icon" ></i> Deposit</a>
             </li>
             <li class="nav-item"><a class="nav-link" href="{% url 'withdrawal' %}">
               <i class="fa-solid fa-money-bill-transfer nav-icon"></i> Withdrawal</a>
@@ -44,10 +44,10 @@
                 <i class="fa-solid fa-clock-rotate-left nav-icon"></i> Transaction</a>
               <ul class="nav-group-items">
                 <li class="nav-item"><a class="nav-link" href="{% url 'transaction' %}">
-                  <i class="fa-solid fa-money-bill-transfer nav-icon"></i> All Transaction</a>
+                  <i class="fa-solid fa-coins nav-icon"></i> All Transaction</a>
                 </li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'deposithistory' %}">
-                  <i class="fa-solid fa-money-bill-transfer nav-icon"></i> Deposit</a>
+                  <i class="fa-solid fa-sack-dollar nav-icon"></i></i> Deposit</a>
                 </li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'withdrawalhistory' %}">
                   <i class="fa-solid fa-money-bill-transfer nav-icon"></i> Withdrawal</a>
@@ -89,31 +89,17 @@
           <header class="header header-sticky mb-4">
             <div class="container-fluid">
               <button class="header-toggler px-md-0 me-md-3" type="button" onclick="coreui.Sidebar.getInstance(document.querySelector('#sidebar')).toggle()">
-                <i class="fa-solid fa-bars"></i>
+                <i class="fa-solid fa-bars"></i><span style="font-weight: bold;"> Menu</span>
               </button><a class="header-brand d-md-none" href="#">
-                <svg width="118" height="46" alt="CoreUI Logo">
-                  <use xlink:href="assets/brand/coreui.svg#full"></use>
-                </svg></a>
-              <ul class="header-nav d-none d-md-flex">
-                <li class="nav-item"><a class="nav-link" href="#">Dashboard</a></li>
-              </ul>
-              <ul class="header-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="#">
-                    <svg class="icon icon-lg">
-                      <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-bell"></use>
-                    </svg></a></li>
-                <li class="nav-item"><a class="nav-link" href="#">
-                    <svg class="icon icon-lg">
-                      <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-list-rich"></use>
-                    </svg></a></li>
-                <li class="nav-item"><a class="nav-link" href="#">
-                    <svg class="icon icon-lg">
-                      <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-envelope-open"></use>
-                    </svg></a></li>
-              </ul>
 
               <!--Notification begin-->
-              <ul class="header-nav ms-3">
+              <ul class="header-nav ms-auto">
+                
+                <li class="mt-1 mt-lg-1">
+                  <a href="{% url 'deposit' %}" class="px-3" ><i class="fa-solid fa-right-to-bracket" style="color: green;" ></i></a>
+                  <a href="{% url 'withdrawal' %}"><i class="fa-solid fa-right-from-bracket" style="color: red;"></i></a>
+                </li>
+            
                 <li class="nav-item dropdown"><a class="nav-link py-0" data-coreui-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                     <div class="avatar avatar-md"><i class="fa-regular fa-bell"><sup style="background-color: red; border-radius: 50%; color: white; padding: 2px 3px; font-size: x-small;">{% if num is None %}0{% else %}{{num}}{% endif %}</sup></i></div>
                   </a>
@@ -128,8 +114,6 @@
                     </div> 
                     <hr>
                     {% endfor %}
-                    
-                    
                   </div>
                 </li>
               </ul>
