@@ -49,10 +49,10 @@ def ActiveEarnings(request):
     except:
         return {'earning': None}
     
-def Notify(request):
-    data = NotificationVisibility.objects.filter(user = request.user)
+def Notify(request):   
     val = []
     try:
+        data = NotificationVisibility.objects.filter(user = request.user)
         for i in data:
             notify = Notification.objects.all().exclude(i.notification_id)
             val.append(notify)
@@ -61,9 +61,9 @@ def Notify(request):
         return {'num': None, 'data':None}
     
 def Message(request):
-    raw_data = NotificationVisibility.objects.filter(user = request.user)
     data = []
     try:
+        raw_data = NotificationVisibility.objects.filter(user = request.user)
         for i in raw_data: 
             obj = Notification.objects.all().filter(ended = False).exclude(i.notification_id)
             data.append(obj)
