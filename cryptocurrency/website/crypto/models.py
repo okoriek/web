@@ -199,6 +199,8 @@ class History(models.Model):
 
     def __str__(self):
         return f"{self.user}----------{self.amount}"
+    
+
 
 
 class Notification(models.Model):
@@ -210,6 +212,15 @@ class Notification(models.Model):
 
     def __str__(self):
         return self.subject
+    
+class NotificationVisibility(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    notification_id =  models.IntegerField()
+
+    def __str__(self):
+        return f"{self.user}  id: {self.notification_id}"
+
+
     
 
 class SystemEaring(models.Model):

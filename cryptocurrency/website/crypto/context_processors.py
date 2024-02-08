@@ -1,4 +1,4 @@
-from .models import CustomUser, History, Notification,SystemEaring, Investment
+from .models import CustomUser, History, Notification,SystemEaring, Investment, NotificationVisibility
 from django.contrib.auth.models import User
 
 def TotalDeposit(request):
@@ -50,15 +50,23 @@ def ActiveEarnings(request):
         return {'earning': None}
     
 def Notify(request):
+    data = NotificationVisibility.objects.filter(user = request.user)
+    val = []
     try:
-        notify = Notification.objects.all().count()
-        return {'num':notify}
+        for i in data:
+            notify = Notification.objects.all().exclude(i.notification_id)
+            val.append(notify)
+        return {'num':val.count()}
     except:
         return {'num': None, 'data':None}
     
 def Message(request):
+    raw_data = NotificationVisibility.objects.filter(user = request.user)
+    data = []
     try:
-        data = Notification.objects.all().filter(ended = False)
+        for i in raw_data: 
+            obj = Notification.objects.all().filter(ended = False).exclude(i.notification_id)
+            data.append(obj)
         return {'item':data}
     except:
         return {'item':None}

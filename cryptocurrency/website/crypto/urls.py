@@ -27,6 +27,7 @@ urlpatterns = [
     path('Referal/', views.Referal ,name='referal'),
     path('contact/', views.Contactinfo, name='contact'),
     path('complain/', views.AdminContact, name='contactadmin'),
+    path('update_notification/', views.notification, name='update_notification'),
     path('about/', views.About, name='about'),
     path('investment/', views.investment, name='investment'),
     path('faq/', views.Faq, name='faq'),
