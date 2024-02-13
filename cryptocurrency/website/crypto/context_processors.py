@@ -49,27 +49,42 @@ def ActiveEarnings(request):
     except:
         return {'earning': None}
     
-def Notify(request):   
-    val = []
-    try:
-        data = NotificationVisibility.objects.filter(user = request.user)
-        for i in data:
-            notify = Notification.objects.all().exclude(i.notification_id)
-            val.append(notify)
-        return {'num':val.count()}
-    except:
-        return {'num': None, 'data':None}
+def Notify(request):
+    data = NotificationVisibility.objects.filter(user= request.user.pk).count()
+    val = Notification.objects.filter(ended=False).count() 
+    if data:
+        total = int(val-data)
+        return {'num': total}
+    else:
+        return {'num': val}
+    
+    
     
 def Message(request):
-    data = []
-    try:
-        raw_data = NotificationVisibility.objects.filter(user = request.user)
-        for i in raw_data: 
-            obj = Notification.objects.all().filter(ended = False).exclude(i.notification_id)
-            data.append(obj)
-        return {'item':data}
-    except:
-        return {'item':None}
+    data = NotificationVisibility.objects.filter(user= request.user.pk)
+    val = Notification.objects.filter(ended = False)
+    notify_id = []
+    message_id = []
+    item = []
+    if data:
+        for i in val:
+            message_id.append(i.pk)
+        for d in data:
+            notify_id.append(d.notification_id)
+        update_data = list(set(message_id) - set(notify_id))
+        for y in update_data:
+            dats = Notification.objects.filter(pk = y)
+            for j in dats:
+                items = {
+                    'pk': j.pk,
+                    'subject': j.subject,
+                    'message': j.message,
+                    'date_created': j.date_created
+                }
+            item.append(items)
+        return {'item':item}
+    else:
+        return {'item': val}
 
 
 
