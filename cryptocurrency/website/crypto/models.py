@@ -241,41 +241,42 @@ class SystemEaring(models.Model):
         date = self.date_created + timezone.timedelta(days=self.num)
         fig =  timezone.now().date() - self.date_created.date()
         diff = fig.days
-        if date.date() == timezone.now().date():
-            if timezone.now() < self.date_expiration:
-                if diff == self.num:        
-                    self.num += 1
-                    profit =  plans.profit
-                    self.balance += ((profit * int(self.invest.amount)))/100
-                    total =  CustomUser.objects.get(user=self.user)
-                    total.balance += ((profit * int(self.invest.amount)))/100
-                    total.save()
-                else:
-                    sub = diff - self.num
-                    self.num += sub
-                    profit =  plans.profit
-                    self.balance += (((profit * int(self.invest.amount)))/100) * sub
-                    total =  CustomUser.objects.get(user=self.user)
-                    total.balance += (((profit * int(self.invest.amount)))/100) * sub
-                    total.save()
-
-            else:
-                if self.num != plans.duration:
-                    sub = plans.duration - self.num
-                    self.num += sub
-                    profit =  plans.profit
-                    self.balance += (((profit * int(self.invest.amount)))/100) * sub
-                    total =  CustomUser.objects.get(user=self.user)
-                    total.balance += (((profit * int(self.invest.amount)))/100) * sub
-                    total.save()
-
-                    self.is_active = False
-                else:
-                    self.is_active = False
-
-        else:
-            
+        if diff == 0:
             pass
+        else:
+            if date.date() == timezone.now().date():
+                if timezone.now() < self.date_expiration:
+                    if diff == self.num:        
+                        self.num += 1
+                        profit =  plans.profit
+                        self.balance += ((profit * int(self.invest.amount)))/100
+                        total =  CustomUser.objects.get(user=self.user)
+                        total.balance += ((profit * int(self.invest.amount)))/100
+                        total.save()
+                    else:
+                        sub = diff - self.num
+                        self.num += sub
+                        profit =  plans.profit
+                        self.balance += (((profit * int(self.invest.amount)))/100) * sub
+                        total =  CustomUser.objects.get(user=self.user)
+                        total.balance += (((profit * int(self.invest.amount)))/100) * sub
+                        total.save()
+
+                else:
+                    if self.num != plans.duration:
+                        sub = plans.duration - self.num
+                        self.num += sub
+                        profit =  plans.profit
+                        self.balance += (((profit * int(self.invest.amount)))/100) * sub
+                        total =  CustomUser.objects.get(user=self.user)
+                        total.balance += (((profit * int(self.invest.amount)))/100) * sub
+                        total.save()
+
+                        self.is_active = False
+                    else:
+                        self.is_active = False
+            else:       
+                pass
         super().save(*args, **kwargs)
 
 
