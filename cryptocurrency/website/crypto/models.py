@@ -73,7 +73,7 @@ class Payment(models.Model):
     amount = models.FloatField()
     memo = models.CharField(max_length=200, blank=True, null=True)
     status = models.BooleanField(default=False) 
-    date_created = models.DateTimeField(auto_now_add=True)
+    date_created = models.DateTimeField(default = timezone.now)
 
     def __str__(self):
         return f"{self.user}---------{self.payment_option}-------------{self.amount}"
@@ -133,7 +133,7 @@ class Withdrawal(models.Model):
     currency = models.CharField(max_length=20, blank=True, null=True)
     amount = models.IntegerField()
     status = models.BooleanField(default=False) 
-    date_created = models.DateTimeField(auto_now_add=True)
+    date_created = models.DateTimeField(default = timezone.now)
 
     def __str__(self):
         return f"{self.user}---------{self.currency}---------{self.amount}"

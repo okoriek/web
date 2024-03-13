@@ -13,7 +13,7 @@ def HistorySave(sender, instance, created, **kwargs):
 @receiver(post_save, sender=Payment)
 def UpdateHistorySave(sender, instance, created, **kwargs):
     if created == False:
-        history  = History.objects.filter(payment=instance).update(action='Deposit', currency = str(instance.payment_option), status = instance.status)
+        history  = History.objects.filter(payment=instance).update(action='Deposit', currency = str(instance.payment_option), status = instance.status, date_created = instance.date_created)
 
 
 @receiver(post_save, sender=Withdrawal)
@@ -25,7 +25,7 @@ def WithdrawHistorySave(sender, instance, created, **kwargs):
 @receiver(post_save, sender=Withdrawal)
 def UpdateWithdrawHistorySave(sender, instance, created, **kwargs):
     if created == False:
-        History.objects.filter(withdraw =instance).update(action='Withdrawal', currency = instance.currency, status = instance.status)
+        History.objects.filter(withdraw =instance).update(action='Withdrawal', currency = instance.currency, status = instance.status, date_created = instance.date_created)
 
 
 
