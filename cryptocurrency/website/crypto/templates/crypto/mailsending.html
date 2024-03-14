@@ -96,6 +96,9 @@
 
             },
             success: function(response){
+                email.value = ''
+                subject.value = ''
+                message.value = ''
                 Swal.fire({
                     icon: 'success',
                     title: response.message,
@@ -104,6 +107,7 @@
                 submit.disabled = false
             },
             error: function(error){
+                console.log(error)
 
             }
         })
