@@ -10,7 +10,7 @@ from django.core.mail import EmailMessage
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.utils.encoding import force_bytes, force_str
 from django.contrib.sites.shortcuts import get_current_site
-from .utils import TokenGenerator, SendReferalMail
+from .utils import TokenGenerator, SendReferalMail, SendEmail
 from django.utils import timezone
 from datetime import datetime
 
@@ -345,6 +345,37 @@ def notification(request):
     data = NotificationVisibility.objects.update_or_create(user = user, notification_id=int(id))
     data.save()
     return JsonResponse('successfully updated', safe=False)
+
+
+def DisplayEmail(request):
+
+    return render(request, 'crypto/mailsending.html')
+
+
+
+def SendBulkEmail(request):
+    email  =  request.POST['email']
+    subject =  request.POST['subject']
+    val = request.POST['value']
+    message =  request.POST['message']
+
+    if val == 'true':
+        item = User.objects.all()
+        for i in item:
+            user = {
+                'username': i.username,
+                'email': i.email
+            }
+            SendEmail(subject, user, message)
+    else:
+        item = User.objects.filter(email = email)
+        for i in item:
+            user = {
+                'username': i.username,
+                'email': i.email
+            }
+            SendEmail(subject, user, message)
+    return JsonResponse({'message': 'Email Successfully Sent'})
 
 
 

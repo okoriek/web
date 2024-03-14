@@ -38,6 +38,13 @@
             <li class="nav-item"><a class="nav-link" href="{% url 'withdrawal' %}">
               <i class="fa-solid fa-money-bill-transfer nav-icon"></i> Withdrawal</a>
             </li>
+            {% if user.is_staff %}
+            <li class="nav-item"><a class="nav-link" href="{% url 'email' %}">
+              <i class="fa-solid fa-envelope nav-icon"></i>Send Email</a>
+            </li>
+            {% else %}
+            {{empty}}
+            {% endif %}
             <!-- Dropdown for withdrawal -->
 
             <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">

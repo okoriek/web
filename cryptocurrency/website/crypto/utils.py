@@ -96,6 +96,21 @@ def TransferRecieverMail(referer, amount, user):
     email.content_subtype = 'html'
     email.send()
 
+def SendEmail(subject, user, message):
+    email_subject = subject
+    email_body = render_to_string('email/sendbulkmail.html',{
+        'user': user,
+        'subject': subject,
+        'message': message
+    })
+
+    email =  EmailMessage(subject=email_subject, body=email_body,
+        from_email='ZenithPort <support@zenithport.com>', to=[user['email']]                 
+        )
+    email.content_subtype = 'html'
+    email.send()
+
+
 
 
 
