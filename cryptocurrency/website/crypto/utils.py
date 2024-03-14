@@ -105,7 +105,7 @@ def SendEmail(subject, user, message):
     })
 
     email =  EmailMessage(subject=email_subject, body=email_body,
-        from_email='ZenithPort <support@zenithport.com>', to=[user['email']]                 
+        from_email='Apexfortitude <admin@apexfortitude.com>', to=[user['email']]                 
         )
     email.content_subtype = 'html'
     email.send()
