@@ -112,11 +112,13 @@ def ReferalRegister(request, referal):
 def Dashboard(request):
     earn =  SystemEaring.objects.filter(user =  request.user, is_active=True)
     invest =  Investment.objects.filter(user =request.user, is_active=True)
-    for x in earn:
-        
-        x.save()
-    for y in invest:
-        y.save()
+    try:
+        for x in earn:  
+            x.save()
+        for y in invest:
+            y.save()
+    except:
+        pass
     user = request.user
     data = History.objects.filter(user = user)[:10]
     detail = CustomUser.objects.get(user=user)
@@ -278,7 +280,7 @@ def SubmitInvestment(request):
 
     if reinvest.exists():
         counting = Reinvestment.objects.get(user=request.user, plan=select)
-        if counting.plan == 'Starter' and counting.number_of_investment < 2 or counting.plan == 'Premium' and counting.number_of_investment <4:
+        if counting.plan == 'Starter' and counting.number_of_investment < 2 or counting.plan == 'Premium' and counting.number_of_investment <4 or counting.plan == 'Vip' and counting.number_of_investment >= 0:
             invest = Investment.objects.create(user= request.user, plan= select, amount= amount, is_active= True)
             referal =  CustomUser.objects.get(user=request.user)
 
