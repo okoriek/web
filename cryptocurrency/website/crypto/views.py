@@ -113,7 +113,11 @@ def Dashboard(request):
     earn =  SystemEaring.objects.filter(user =  request.user, is_active=True)
     invest =  Investment.objects.filter(user =request.user, is_active=True)
     try:
+<<<<<<< HEAD
         for x in earn: 
+=======
+        for x in earn:  
+>>>>>>> 2986b42534be7c690082ab14f2ded304766fe281
             x.save()
         for y in invest:
             y.save()
@@ -280,7 +284,11 @@ def SubmitInvestment(request):
 
     if reinvest.exists():
         counting = Reinvestment.objects.get(user=request.user, plan=select)
+<<<<<<< HEAD
         if counting.plan == 'Starter' and counting.number_of_investment < 2 or counting.plan == 'Premium' and counting.number_of_investment <4 or counting.plan == 'Vip' and counting.number_of_investment >0:
+=======
+        if counting.plan == 'Starter' and counting.number_of_investment < 2 or counting.plan == 'Premium' and counting.number_of_investment <4 or counting.plan == 'Vip' and counting.number_of_investment >= 0:
+>>>>>>> 2986b42534be7c690082ab14f2ded304766fe281
             invest = Investment.objects.create(user= request.user, plan= select, amount= amount, is_active= True)
             referal =  CustomUser.objects.get(user=request.user)
 
