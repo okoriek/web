@@ -113,6 +113,7 @@ class Investment(models.Model):
         self.date_expiration =  self.date_created + timezone.timedelta(days=plan.duration)
         if timezone.now() > self.date_expiration and self.is_active == True and self.is_completed == False:
             total =  CustomUser.objects.get(user=self.user)
+            print(total.balance)
             total.balance += self.amount
             total.save()
             self.is_active = False
